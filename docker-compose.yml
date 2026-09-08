@@ -1,0 +1,21 @@
+# Alternative to run.sh, for anyone who prefers compose.
+#
+#   DATA_DIR=/path/to/data OUT_DIR=/path/to/out docker compose run --rm usfeat
+#
+# Add arguments after the service name:
+#   ... docker compose run --rm usfeat extract --data /data --out /out --limit 10
+
+services:
+  usfeat:
+    image: usfeat:latest
+    build:
+      context: .
+      args:
+        HF_TOKEN: ${HF_TOKEN:-}
+        TEXLAB_KEY: ${TEXLAB_KEY:-}
+    volumes:
+      - ${DATA_DIR:-./sample_data}:/data:ro
+      - ${OUT_DIR:-./out}:/out
+    # The TexLab payload is decrypted into /dev/shm; the 64 MB default is too small.
+    shm_size: 2gb
+    command: ["extract", "--data", "/data", "--out", "/out"]

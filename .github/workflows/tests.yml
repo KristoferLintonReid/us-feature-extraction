@@ -1,0 +1,41 @@
+name: tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: ["3.9", "3.11"]
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+
+      # The test suite deliberately avoids model weights, Octave and the TexLab
+      # payload, so it needs only the light dependencies and runs in seconds.
+      - name: install
+        run: |
+          python -m pip install --upgrade pip
+          pip install numpy pandas pyarrow pyyaml pillow tifffile openpyxl \
+                      cryptography opencv-python-headless scipy pytest
+
+      - name: pytest
+        run: python -m pytest tests -v
+
+  lint:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install ruff
+      - run: ruff check src tools tests --select E9,F63,F7,F82

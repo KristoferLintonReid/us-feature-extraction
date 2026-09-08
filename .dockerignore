@@ -1,0 +1,15 @@
+.git/
+out/
+output/
+sample_data/
+weights/
+*.parquet
+__pycache__/
+*.py[cod]
+.venv/
+.pytest_cache/
+.DS_Store
+docs/
+# The key must never enter the build context; it arrives as a --build-arg.
+build/texlab.key
+*.key

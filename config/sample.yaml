@@ -1,0 +1,33 @@
+# Config for the bundled sample_data pack.
+#
+#   usfeat extract --config config/sample.yaml
+#
+# Identical to default.yaml apart from the paths, and TexLab off (the sample run
+# is meant to work without the proprietary payload).
+
+data_root: ./sample_data
+output_dir: ./out/sample
+
+extractors:
+  - pyradiomics
+  - dinov2
+  - dinov3
+  - biomedclip
+  - siglip
+  - imagenet
+
+include_whole_image: true
+rois: [lesion, locule, projection, solid]
+
+metadata:
+  unsegmented_file: metadata_unsegmented.xlsx
+  unsegmented_key: File Name
+  segmented_file: metadata_segmented.xlsx
+  segmented_key: Label
+
+deep:
+  roi_mode: crop
+  device: auto
+
+texlab:
+  enabled: false

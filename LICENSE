@@ -1,0 +1,31 @@
+Copyright (c) 2026 JuveX.AI. All rights reserved.
+
+This software is proprietary and confidential. It is provided to named
+collaborators solely for the purpose of extracting imaging features from their
+own datasets under an agreed research collaboration.
+
+Permitted:
+  - Running the software, including as a container, on your own data.
+  - Retaining and analysing the feature tables it produces.
+
+Not permitted without prior written consent from JuveX.AI:
+  - Redistribution of this software or any part of it.
+  - Reverse engineering, decompiling, or attempting to recover the source of
+    any encrypted component.
+  - Use in any commercial product or service.
+
+The TexLab texture analysis toolbox is the property of its respective authors
+(Imperial College London) and is distributed here only in encrypted form under
+separate terms.
+
+Third-party components retain their own licences:
+  - PyRadiomics: BSD-3-Clause
+  - DINOv2, DINOv3 model weights: Meta AI, see upstream model cards
+  - BiomedCLIP: MIT
+  - SigLIP: Apache-2.0
+  - timm, transformers, open_clip: Apache-2.0 / MIT
+  - MMOTU sample data: Apache-2.0
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED. IT IS A RESEARCH TOOL AND IS NOT A MEDICAL DEVICE. IT MUST NOT BE USED
+FOR CLINICAL DIAGNOSIS OR TO INFORM PATIENT MANAGEMENT.

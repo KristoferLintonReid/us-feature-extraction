@@ -1,0 +1,28 @@
+# Never commit the TexLab plaintext, the payload key, or credentials.
+texlab.key
+*.key
+secrets/
+texlab_src/
+TexLAB*/
+*.enc
+
+# Model weights are baked at build time, not versioned.
+weights/
+*.pth
+*.safetensors
+*.bin
+
+# Run outputs
+out/
+output/
+*.parquet
+logs/
+
+# Python
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+*.egg-info/
+.pytest_cache/
+.DS_Store

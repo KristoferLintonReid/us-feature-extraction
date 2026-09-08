@@ -1,0 +1,93 @@
+# usfeat default configuration.
+#
+# Paths are the ones the Docker image mounts. Running outside Docker, override
+# with --data / --out. Everything here can also be left as-is: the defaults
+# match the folder layout agreed with the data provider.
+
+data_root: /data
+output_dir: /out
+
+# Feature families to run. Drop any you do not need -- each is independent.
+extractors:
+  - texlab
+  - pyradiomics
+  - dinov2
+  - dinov3
+  - biomedclip
+  - siglip
+  - imagenet
+
+# Whole-image (no ROI) features are produced alongside the per-ROI ones.
+include_whole_image: true
+
+# ROIs to extract independently. Each gets its own set of Parquet files.
+rois:
+  - lesion
+  - locule
+  - projection
+  - solid
+
+resume: true
+
+layout:
+  grayscale_dir: images_grayscale
+  doppler_dir: images_doppler
+  seg_dir: images_seg
+  seg_image_subdir: img
+  roi_dirs:
+    lesion: lesion
+    locule: locule
+    projection: projection
+    solid: solid
+
+metadata:
+  # Paths relative to data_root (or absolute). Both optional.
+  unsegmented_file: metadata_unsegmented.xlsx
+  unsegmented_key: File Name
+  segmented_file: metadata_segmented.xlsx
+  segmented_key: Label
+  # Columns to embed in every feature table. Empty = carry all of them.
+  carry_columns: []
+
+deep:
+  roi_mode: crop        # crop | mask | both
+  bbox_padding: 10
+  device: auto          # auto | cpu | cuda | mps
+  include_patch_mean: true
+  dinov2_model: facebook/dinov2-base
+  # The facebook/dinov3-* repos are licence-gated; this timm re-host carries the
+  # same LVD-1689M weights without the gate.
+  dinov3_model: timm/vit_base_patch16_dinov3.lvd1689m
+  biomedclip_model: "hf-hub:microsoft/BiomedCLIP-PubMedBERT_256-vit_base_patch16_224"
+  siglip_model: google/siglip-base-patch16-224
+  imagenet_backbones:
+    - resnet50.a1_in1k
+    - vit_base_patch16_224.augreg_in21k_ft_in1k
+
+pyradiomics:
+  bin_width: 25.0
+  normalize: true
+  normalize_scale: 100.0
+  force_2d: true
+  enable_all_image_types: true
+  image_types:
+    - Original
+    - Wavelet
+    - LoG
+    - Square
+    - SquareRoot
+    - Logarithm
+    - Exponential
+    - Gradient
+    - LBP2D
+  log_sigma: [1.0, 2.0, 3.0]
+  min_roi_voxels: 32
+
+texlab:
+  enabled: true
+  payload: /opt/usfeat/texlab/texlab.enc
+  key_file: null        # null = use the key baked into the image, or $TEXLAB_KEY
+  modality: MRI
+  octave_binary: octave-cli
+  timeout_seconds: 1800
+  min_roi_voxels: 32
