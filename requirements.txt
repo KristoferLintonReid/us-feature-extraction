@@ -16,3 +16,4 @@ cryptography>=42.0
 opencv-python-headless>=4.8
 scipy>=1.10
 tqdm>=4.65
+matplotlib>=3.7   # tools/make_examples.py only

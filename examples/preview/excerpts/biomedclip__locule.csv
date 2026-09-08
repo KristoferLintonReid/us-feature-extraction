@@ -1,0 +1,4 @@
+image_id,source,channel,roi,roi_n_voxels,meta_CDM_ID,meta_Center,meta_Histology,meta_Iota7_basic.extra_colourscore,biomedclip_img_0000,biomedclip_img_0001,biomedclip_img_0002,biomedclip_img_0003,biomedclip_img_0004,biomedclip_img_0005
+seg/0,segmented,grayscale,locule,6974,,,benign,,3.04453,1.38475,-18.54745,1.15956,3.59971,4.28448
+seg/1,segmented,grayscale,locule,9383,,,benign,,3.63622,0.47638,-12.77316,4.93076,0.05274,1.16474
+seg/2,segmented,grayscale,locule,21995,,,benign,,1.59845,4.78007,-19.31651,7.48513,4.384,4.25344

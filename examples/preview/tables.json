@@ -1,0 +1,803 @@
+{
+  "run": {
+    "usfeat_version": "0.1.0",
+    "finished_at": "2026-09-08T23:19:20+00:00",
+    "elapsed_seconds": 117.9,
+    "data_root": "/Users/kl2418/ovarian-us-feature-extraction/sample_data",
+    "output_dir": "/Users/kl2418/ovarian-us-feature-extraction/examples/output",
+    "config_fingerprint": "653c06c571010fbf",
+    "extractors_requested": [
+      "texlab",
+      "pyradiomics",
+      "dinov2",
+      "dinov3",
+      "biomedclip",
+      "siglip",
+      "imagenet"
+    ],
+    "extractors_ready": [
+      "pyradiomics",
+      "dinov2",
+      "dinov3",
+      "biomedclip",
+      "siglip",
+      "imagenet"
+    ],
+    "extractors_unavailable": [
+      "texlab"
+    ],
+    "images_found": 5,
+    "images_with_masks": 3,
+    "counts": {
+      "extractors_ready": 6,
+      "images_seen": 5,
+      "rows:pyradiomics": 17,
+      "rows:dinov2": 17,
+      "rows:dinov3": 17,
+      "rows:biomedclip": 17,
+      "rows:siglip": 17,
+      "rows:imagenet": 17,
+      "images_done": 5
+    },
+    "skips": {},
+    "errors_logged": 0,
+    "metadata_unmatched": {
+      "unsegmented": 0,
+      "segmented": 0
+    },
+    "tables": [
+      {
+        "file": "biomedclip__lesion.parquet",
+        "rows": 3
+      },
+      {
+        "file": "biomedclip__locule.parquet",
+        "rows": 3
+      },
+      {
+        "file": "biomedclip__projection.parquet",
+        "rows": 3
+      },
+      {
+        "file": "biomedclip__solid.parquet",
+        "rows": 3
+      },
+      {
+        "file": "biomedclip__whole.parquet",
+        "rows": 5
+      },
+      {
+        "file": "dinov2__lesion.parquet",
+        "rows": 3
+      },
+      {
+        "file": "dinov2__locule.parquet",
+        "rows": 3
+      },
+      {
+        "file": "dinov2__projection.parquet",
+        "rows": 3
+      },
+      {
+        "file": "dinov2__solid.parquet",
+        "rows": 3
+      },
+      {
+        "file": "dinov2__whole.parquet",
+        "rows": 5
+      },
+      {
+        "file": "dinov3__lesion.parquet",
+        "rows": 3
+      },
+      {
+        "file": "dinov3__locule.parquet",
+        "rows": 3
+      },
+      {
+        "file": "dinov3__projection.parquet",
+        "rows": 3
+      },
+      {
+        "file": "dinov3__solid.parquet",
+        "rows": 3
+      },
+      {
+        "file": "dinov3__whole.parquet",
+        "rows": 5
+      },
+      {
+        "file": "imagenet__lesion.parquet",
+        "rows": 3
+      },
+      {
+        "file": "imagenet__locule.parquet",
+        "rows": 3
+      },
+      {
+        "file": "imagenet__projection.parquet",
+        "rows": 3
+      },
+      {
+        "file": "imagenet__solid.parquet",
+        "rows": 3
+      },
+      {
+        "file": "imagenet__whole.parquet",
+        "rows": 5
+      },
+      {
+        "file": "pyradiomics__lesion.parquet",
+        "rows": 3
+      },
+      {
+        "file": "pyradiomics__locule.parquet",
+        "rows": 3
+      },
+      {
+        "file": "pyradiomics__projection.parquet",
+        "rows": 3
+      },
+      {
+        "file": "pyradiomics__solid.parquet",
+        "rows": 3
+      },
+      {
+        "file": "pyradiomics__whole.parquet",
+        "rows": 5
+      },
+      {
+        "file": "siglip__lesion.parquet",
+        "rows": 3
+      },
+      {
+        "file": "siglip__locule.parquet",
+        "rows": 3
+      },
+      {
+        "file": "siglip__projection.parquet",
+        "rows": 3
+      },
+      {
+        "file": "siglip__solid.parquet",
+        "rows": 3
+      },
+      {
+        "file": "siglip__whole.parquet",
+        "rows": 5
+      }
+    ]
+  },
+  "tables": [
+    {
+      "file": "biomedclip__lesion.parquet",
+      "extractor": "biomedclip",
+      "roi": "lesion",
+      "rows": 3,
+      "columns": 535,
+      "n_features": 512,
+      "n_metadata": 9,
+      "size_bytes": 364918,
+      "model": "hf-hub:microsoft/BiomedCLIP-PubMedBERT_256-vit_base_patch16_224",
+      "first_features": [
+        "biomedclip_img_0000",
+        "biomedclip_img_0001",
+        "biomedclip_img_0002",
+        "biomedclip_img_0003"
+      ],
+      "last_features": [
+        "biomedclip_img_0510",
+        "biomedclip_img_0511"
+      ]
+    },
+    {
+      "file": "biomedclip__locule.parquet",
+      "extractor": "biomedclip",
+      "roi": "locule",
+      "rows": 3,
+      "columns": 535,
+      "n_features": 512,
+      "n_metadata": 9,
+      "size_bytes": 364919,
+      "model": "hf-hub:microsoft/BiomedCLIP-PubMedBERT_256-vit_base_patch16_224",
+      "first_features": [
+        "biomedclip_img_0000",
+        "biomedclip_img_0001",
+        "biomedclip_img_0002",
+        "biomedclip_img_0003"
+      ],
+      "last_features": [
+        "biomedclip_img_0510",
+        "biomedclip_img_0511"
+      ]
+    },
+    {
+      "file": "biomedclip__projection.parquet",
+      "extractor": "biomedclip",
+      "roi": "projection",
+      "rows": 3,
+      "columns": 535,
+      "n_features": 512,
+      "n_metadata": 9,
+      "size_bytes": 364962,
+      "model": "hf-hub:microsoft/BiomedCLIP-PubMedBERT_256-vit_base_patch16_224",
+      "first_features": [
+        "biomedclip_img_0000",
+        "biomedclip_img_0001",
+        "biomedclip_img_0002",
+        "biomedclip_img_0003"
+      ],
+      "last_features": [
+        "biomedclip_img_0510",
+        "biomedclip_img_0511"
+      ]
+    },
+    {
+      "file": "biomedclip__solid.parquet",
+      "extractor": "biomedclip",
+      "roi": "solid",
+      "rows": 3,
+      "columns": 535,
+      "n_features": 512,
+      "n_metadata": 9,
+      "size_bytes": 364896,
+      "model": "hf-hub:microsoft/BiomedCLIP-PubMedBERT_256-vit_base_patch16_224",
+      "first_features": [
+        "biomedclip_img_0000",
+        "biomedclip_img_0001",
+        "biomedclip_img_0002",
+        "biomedclip_img_0003"
+      ],
+      "last_features": [
+        "biomedclip_img_0510",
+        "biomedclip_img_0511"
+      ]
+    },
+    {
+      "file": "biomedclip__whole.parquet",
+      "extractor": "biomedclip",
+      "roi": "whole",
+      "rows": 5,
+      "columns": 535,
+      "n_features": 512,
+      "n_metadata": 9,
+      "size_bytes": 373881,
+      "model": "hf-hub:microsoft/BiomedCLIP-PubMedBERT_256-vit_base_patch16_224",
+      "first_features": [
+        "biomedclip_img_0000",
+        "biomedclip_img_0001",
+        "biomedclip_img_0002",
+        "biomedclip_img_0003"
+      ],
+      "last_features": [
+        "biomedclip_img_0510",
+        "biomedclip_img_0511"
+      ]
+    },
+    {
+      "file": "dinov2__lesion.parquet",
+      "extractor": "dinov2",
+      "roi": "lesion",
+      "rows": 3,
+      "columns": 1559,
+      "n_features": 1536,
+      "n_metadata": 9,
+      "size_bytes": 1070683,
+      "model": "facebook/dinov2-base",
+      "first_features": [
+        "dinov2_pooled_0000",
+        "dinov2_pooled_0001",
+        "dinov2_pooled_0002",
+        "dinov2_pooled_0003"
+      ],
+      "last_features": [
+        "dinov2_patchmean_0766",
+        "dinov2_patchmean_0767"
+      ]
+    },
+    {
+      "file": "dinov2__locule.parquet",
+      "extractor": "dinov2",
+      "roi": "locule",
+      "rows": 3,
+      "columns": 1559,
+      "n_features": 1536,
+      "n_metadata": 9,
+      "size_bytes": 1070684,
+      "model": "facebook/dinov2-base",
+      "first_features": [
+        "dinov2_pooled_0000",
+        "dinov2_pooled_0001",
+        "dinov2_pooled_0002",
+        "dinov2_pooled_0003"
+      ],
+      "last_features": [
+        "dinov2_patchmean_0766",
+        "dinov2_patchmean_0767"
+      ]
+    },
+    {
+      "file": "dinov2__projection.parquet",
+      "extractor": "dinov2",
+      "roi": "projection",
+      "rows": 3,
+      "columns": 1559,
+      "n_features": 1536,
+      "n_metadata": 9,
+      "size_bytes": 1070727,
+      "model": "facebook/dinov2-base",
+      "first_features": [
+        "dinov2_pooled_0000",
+        "dinov2_pooled_0001",
+        "dinov2_pooled_0002",
+        "dinov2_pooled_0003"
+      ],
+      "last_features": [
+        "dinov2_patchmean_0766",
+        "dinov2_patchmean_0767"
+      ]
+    },
+    {
+      "file": "dinov2__solid.parquet",
+      "extractor": "dinov2",
+      "roi": "solid",
+      "rows": 3,
+      "columns": 1559,
+      "n_features": 1536,
+      "n_metadata": 9,
+      "size_bytes": 1070661,
+      "model": "facebook/dinov2-base",
+      "first_features": [
+        "dinov2_pooled_0000",
+        "dinov2_pooled_0001",
+        "dinov2_pooled_0002",
+        "dinov2_pooled_0003"
+      ],
+      "last_features": [
+        "dinov2_patchmean_0766",
+        "dinov2_patchmean_0767"
+      ]
+    },
+    {
+      "file": "dinov2__whole.parquet",
+      "extractor": "dinov2",
+      "roi": "whole",
+      "rows": 5,
+      "columns": 1559,
+      "n_features": 1536,
+      "n_metadata": 9,
+      "size_bytes": 1097041,
+      "model": "facebook/dinov2-base",
+      "first_features": [
+        "dinov2_pooled_0000",
+        "dinov2_pooled_0001",
+        "dinov2_pooled_0002",
+        "dinov2_pooled_0003"
+      ],
+      "last_features": [
+        "dinov2_patchmean_0766",
+        "dinov2_patchmean_0767"
+      ]
+    },
+    {
+      "file": "dinov3__lesion.parquet",
+      "extractor": "dinov3",
+      "roi": "lesion",
+      "rows": 3,
+      "columns": 1559,
+      "n_features": 1536,
+      "n_metadata": 9,
+      "size_bytes": 1070723,
+      "model": "facebook/dinov3-vitb16-pretrain-lvd1689m",
+      "first_features": [
+        "dinov3_pooled_0000",
+        "dinov3_pooled_0001",
+        "dinov3_pooled_0002",
+        "dinov3_pooled_0003"
+      ],
+      "last_features": [
+        "dinov3_patchmean_0766",
+        "dinov3_patchmean_0767"
+      ]
+    },
+    {
+      "file": "dinov3__locule.parquet",
+      "extractor": "dinov3",
+      "roi": "locule",
+      "rows": 3,
+      "columns": 1559,
+      "n_features": 1536,
+      "n_metadata": 9,
+      "size_bytes": 1070724,
+      "model": "facebook/dinov3-vitb16-pretrain-lvd1689m",
+      "first_features": [
+        "dinov3_pooled_0000",
+        "dinov3_pooled_0001",
+        "dinov3_pooled_0002",
+        "dinov3_pooled_0003"
+      ],
+      "last_features": [
+        "dinov3_patchmean_0766",
+        "dinov3_patchmean_0767"
+      ]
+    },
+    {
+      "file": "dinov3__projection.parquet",
+      "extractor": "dinov3",
+      "roi": "projection",
+      "rows": 3,
+      "columns": 1559,
+      "n_features": 1536,
+      "n_metadata": 9,
+      "size_bytes": 1070779,
+      "model": "facebook/dinov3-vitb16-pretrain-lvd1689m",
+      "first_features": [
+        "dinov3_pooled_0000",
+        "dinov3_pooled_0001",
+        "dinov3_pooled_0002",
+        "dinov3_pooled_0003"
+      ],
+      "last_features": [
+        "dinov3_patchmean_0766",
+        "dinov3_patchmean_0767"
+      ]
+    },
+    {
+      "file": "dinov3__solid.parquet",
+      "extractor": "dinov3",
+      "roi": "solid",
+      "rows": 3,
+      "columns": 1559,
+      "n_features": 1536,
+      "n_metadata": 9,
+      "size_bytes": 1070713,
+      "model": "facebook/dinov3-vitb16-pretrain-lvd1689m",
+      "first_features": [
+        "dinov3_pooled_0000",
+        "dinov3_pooled_0001",
+        "dinov3_pooled_0002",
+        "dinov3_pooled_0003"
+      ],
+      "last_features": [
+        "dinov3_patchmean_0766",
+        "dinov3_patchmean_0767"
+      ]
+    },
+    {
+      "file": "dinov3__whole.parquet",
+      "extractor": "dinov3",
+      "roi": "whole",
+      "rows": 5,
+      "columns": 1559,
+      "n_features": 1536,
+      "n_metadata": 9,
+      "size_bytes": 1097086,
+      "model": "facebook/dinov3-vitb16-pretrain-lvd1689m",
+      "first_features": [
+        "dinov3_pooled_0000",
+        "dinov3_pooled_0001",
+        "dinov3_pooled_0002",
+        "dinov3_pooled_0003"
+      ],
+      "last_features": [
+        "dinov3_patchmean_0766",
+        "dinov3_patchmean_0767"
+      ]
+    },
+    {
+      "file": "imagenet__lesion.parquet",
+      "extractor": "imagenet",
+      "roi": "lesion",
+      "rows": 3,
+      "columns": 2839,
+      "n_features": 2816,
+      "n_metadata": 9,
+      "size_bytes": 2064604,
+      "model": "resnet50.a1_in1k,vit_base_patch16_224.augreg_in21k_ft_in1k",
+      "first_features": [
+        "imagenet_resnet50_0000",
+        "imagenet_resnet50_0001",
+        "imagenet_resnet50_0002",
+        "imagenet_resnet50_0003"
+      ],
+      "last_features": [
+        "imagenet_vit_base_patch16_224_0766",
+        "imagenet_vit_base_patch16_224_0767"
+      ]
+    },
+    {
+      "file": "imagenet__locule.parquet",
+      "extractor": "imagenet",
+      "roi": "locule",
+      "rows": 3,
+      "columns": 2839,
+      "n_features": 2816,
+      "n_metadata": 9,
+      "size_bytes": 2065297,
+      "model": "resnet50.a1_in1k,vit_base_patch16_224.augreg_in21k_ft_in1k",
+      "first_features": [
+        "imagenet_resnet50_0000",
+        "imagenet_resnet50_0001",
+        "imagenet_resnet50_0002",
+        "imagenet_resnet50_0003"
+      ],
+      "last_features": [
+        "imagenet_vit_base_patch16_224_0766",
+        "imagenet_vit_base_patch16_224_0767"
+      ]
+    },
+    {
+      "file": "imagenet__projection.parquet",
+      "extractor": "imagenet",
+      "roi": "projection",
+      "rows": 3,
+      "columns": 2839,
+      "n_features": 2816,
+      "n_metadata": 9,
+      "size_bytes": 2064647,
+      "model": "resnet50.a1_in1k,vit_base_patch16_224.augreg_in21k_ft_in1k",
+      "first_features": [
+        "imagenet_resnet50_0000",
+        "imagenet_resnet50_0001",
+        "imagenet_resnet50_0002",
+        "imagenet_resnet50_0003"
+      ],
+      "last_features": [
+        "imagenet_vit_base_patch16_224_0766",
+        "imagenet_vit_base_patch16_224_0767"
+      ]
+    },
+    {
+      "file": "imagenet__solid.parquet",
+      "extractor": "imagenet",
+      "roi": "solid",
+      "rows": 3,
+      "columns": 2839,
+      "n_features": 2816,
+      "n_metadata": 9,
+      "size_bytes": 2065012,
+      "model": "resnet50.a1_in1k,vit_base_patch16_224.augreg_in21k_ft_in1k",
+      "first_features": [
+        "imagenet_resnet50_0000",
+        "imagenet_resnet50_0001",
+        "imagenet_resnet50_0002",
+        "imagenet_resnet50_0003"
+      ],
+      "last_features": [
+        "imagenet_vit_base_patch16_224_0766",
+        "imagenet_vit_base_patch16_224_0767"
+      ]
+    },
+    {
+      "file": "imagenet__whole.parquet",
+      "extractor": "imagenet",
+      "roi": "whole",
+      "rows": 5,
+      "columns": 2839,
+      "n_features": 2816,
+      "n_metadata": 9,
+      "size_bytes": 2108862,
+      "model": "resnet50.a1_in1k,vit_base_patch16_224.augreg_in21k_ft_in1k",
+      "first_features": [
+        "imagenet_resnet50_0000",
+        "imagenet_resnet50_0001",
+        "imagenet_resnet50_0002",
+        "imagenet_resnet50_0003"
+      ],
+      "last_features": [
+        "imagenet_vit_base_patch16_224_0766",
+        "imagenet_vit_base_patch16_224_0767"
+      ]
+    },
+    {
+      "file": "pyradiomics__lesion.parquet",
+      "extractor": "pyradiomics",
+      "roi": "lesion",
+      "rows": 3,
+      "columns": 1170,
+      "n_features": 1147,
+      "n_metadata": 9,
+      "size_bytes": 1005078,
+      "model": "v3.1.0",
+      "first_features": [
+        "pyrad_diag_Versions_PyRadiomics",
+        "pyrad_diag_Versions_Numpy",
+        "pyrad_diag_Versions_SimpleITK",
+        "pyrad_diag_Versions_PyWavelet"
+      ],
+      "last_features": [
+        "pyrad_lbp-2D_ngtdm_Contrast",
+        "pyrad_lbp-2D_ngtdm_Strength"
+      ]
+    },
+    {
+      "file": "pyradiomics__locule.parquet",
+      "extractor": "pyradiomics",
+      "roi": "locule",
+      "rows": 3,
+      "columns": 1170,
+      "n_features": 1147,
+      "n_metadata": 9,
+      "size_bytes": 1005079,
+      "model": "v3.1.0",
+      "first_features": [
+        "pyrad_diag_Versions_PyRadiomics",
+        "pyrad_diag_Versions_Numpy",
+        "pyrad_diag_Versions_SimpleITK",
+        "pyrad_diag_Versions_PyWavelet"
+      ],
+      "last_features": [
+        "pyrad_lbp-2D_ngtdm_Contrast",
+        "pyrad_lbp-2D_ngtdm_Strength"
+      ]
+    },
+    {
+      "file": "pyradiomics__projection.parquet",
+      "extractor": "pyradiomics",
+      "roi": "projection",
+      "rows": 3,
+      "columns": 1170,
+      "n_features": 1147,
+      "n_metadata": 9,
+      "size_bytes": 1005142,
+      "model": "v3.1.0",
+      "first_features": [
+        "pyrad_diag_Versions_PyRadiomics",
+        "pyrad_diag_Versions_Numpy",
+        "pyrad_diag_Versions_SimpleITK",
+        "pyrad_diag_Versions_PyWavelet"
+      ],
+      "last_features": [
+        "pyrad_lbp-2D_ngtdm_Contrast",
+        "pyrad_lbp-2D_ngtdm_Strength"
+      ]
+    },
+    {
+      "file": "pyradiomics__solid.parquet",
+      "extractor": "pyradiomics",
+      "roi": "solid",
+      "rows": 3,
+      "columns": 1170,
+      "n_features": 1147,
+      "n_metadata": 9,
+      "size_bytes": 1005073,
+      "model": "v3.1.0",
+      "first_features": [
+        "pyrad_diag_Versions_PyRadiomics",
+        "pyrad_diag_Versions_Numpy",
+        "pyrad_diag_Versions_SimpleITK",
+        "pyrad_diag_Versions_PyWavelet"
+      ],
+      "last_features": [
+        "pyrad_lbp-2D_ngtdm_Contrast",
+        "pyrad_lbp-2D_ngtdm_Strength"
+      ]
+    },
+    {
+      "file": "pyradiomics__whole.parquet",
+      "extractor": "pyradiomics",
+      "roi": "whole",
+      "rows": 5,
+      "columns": 1170,
+      "n_features": 1147,
+      "n_metadata": 9,
+      "size_bytes": 1023010,
+      "model": "v3.1.0",
+      "first_features": [
+        "pyrad_diag_Versions_PyRadiomics",
+        "pyrad_diag_Versions_Numpy",
+        "pyrad_diag_Versions_SimpleITK",
+        "pyrad_diag_Versions_PyWavelet"
+      ],
+      "last_features": [
+        "pyrad_lbp-2D_ngtdm_Contrast",
+        "pyrad_lbp-2D_ngtdm_Strength"
+      ]
+    },
+    {
+      "file": "siglip__lesion.parquet",
+      "extractor": "siglip",
+      "roi": "lesion",
+      "rows": 3,
+      "columns": 1559,
+      "n_features": 1536,
+      "n_metadata": 9,
+      "size_bytes": 1070705,
+      "model": "google/siglip-base-patch16-224",
+      "first_features": [
+        "siglip_pooled_0000",
+        "siglip_pooled_0001",
+        "siglip_pooled_0002",
+        "siglip_pooled_0003"
+      ],
+      "last_features": [
+        "siglip_patchmean_0766",
+        "siglip_patchmean_0767"
+      ]
+    },
+    {
+      "file": "siglip__locule.parquet",
+      "extractor": "siglip",
+      "roi": "locule",
+      "rows": 3,
+      "columns": 1559,
+      "n_features": 1536,
+      "n_metadata": 9,
+      "size_bytes": 1070706,
+      "model": "google/siglip-base-patch16-224",
+      "first_features": [
+        "siglip_pooled_0000",
+        "siglip_pooled_0001",
+        "siglip_pooled_0002",
+        "siglip_pooled_0003"
+      ],
+      "last_features": [
+        "siglip_patchmean_0766",
+        "siglip_patchmean_0767"
+      ]
+    },
+    {
+      "file": "siglip__projection.parquet",
+      "extractor": "siglip",
+      "roi": "projection",
+      "rows": 3,
+      "columns": 1559,
+      "n_features": 1536,
+      "n_metadata": 9,
+      "size_bytes": 1070757,
+      "model": "google/siglip-base-patch16-224",
+      "first_features": [
+        "siglip_pooled_0000",
+        "siglip_pooled_0001",
+        "siglip_pooled_0002",
+        "siglip_pooled_0003"
+      ],
+      "last_features": [
+        "siglip_patchmean_0766",
+        "siglip_patchmean_0767"
+      ]
+    },
+    {
+      "file": "siglip__solid.parquet",
+      "extractor": "siglip",
+      "roi": "solid",
+      "rows": 3,
+      "columns": 1559,
+      "n_features": 1536,
+      "n_metadata": 9,
+      "size_bytes": 1070695,
+      "model": "google/siglip-base-patch16-224",
+      "first_features": [
+        "siglip_pooled_0000",
+        "siglip_pooled_0001",
+        "siglip_pooled_0002",
+        "siglip_pooled_0003"
+      ],
+      "last_features": [
+        "siglip_patchmean_0766",
+        "siglip_patchmean_0767"
+      ]
+    },
+    {
+      "file": "siglip__whole.parquet",
+      "extractor": "siglip",
+      "roi": "whole",
+      "rows": 5,
+      "columns": 1559,
+      "n_features": 1536,
+      "n_metadata": 9,
+      "size_bytes": 1097070,
+      "model": "google/siglip-base-patch16-224",
+      "first_features": [
+        "siglip_pooled_0000",
+        "siglip_pooled_0001",
+        "siglip_pooled_0002",
+        "siglip_pooled_0003"
+      ],
+      "last_features": [
+        "siglip_patchmean_0766",
+        "siglip_patchmean_0767"
+      ]
+    }
+  ]
+}

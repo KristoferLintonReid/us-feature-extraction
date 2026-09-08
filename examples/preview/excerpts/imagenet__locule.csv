@@ -1,0 +1,4 @@
+image_id,source,channel,roi,roi_n_voxels,meta_CDM_ID,meta_Center,meta_Histology,meta_Iota7_basic.extra_colourscore,imagenet_resnet50_0000,imagenet_resnet50_0001,imagenet_resnet50_0002,imagenet_resnet50_0003,imagenet_resnet50_0004,imagenet_resnet50_0005
+seg/0,segmented,grayscale,locule,6974,,,benign,,0.05111,0.65786,0.00708,0.0,0.03621,0.0
+seg/1,segmented,grayscale,locule,9383,,,benign,,0.02383,0.0001,0.0,0.02959,0.0,0.0
+seg/2,segmented,grayscale,locule,21995,,,benign,,0.08947,0.0,0.0019,0.0,0.00232,0.00023

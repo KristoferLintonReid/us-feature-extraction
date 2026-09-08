@@ -5,7 +5,7 @@ TEXLAB_DIR  ?= /path/to/TexLAB_v3
 DATA        ?= sample_data
 OUT         ?= out
 
-.PHONY: help test lint payload build sample verify clean
+.PHONY: help test lint payload build sample verify examples clean
 
 help:
 	@grep -E '^[a-z-]+:.*?## .*$$' $(MAKEFILE_LIST) | \
@@ -29,6 +29,12 @@ build:  ## build the Docker image (needs HF_TOKEN; payload optional)
 
 sample:  ## run the pipeline over the bundled sample pack
 	./run.sh $(DATA) $(OUT)
+
+examples:  ## regenerate examples/ (5-image run, figures, preview)
+	PYTHONPATH=src python -m usfeat.cli extract \
+	  --data sample_data --out examples/output --limit 5
+	PYTHONPATH=src python tools/make_examples.py --data sample_data --out examples/figures
+	PYTHONPATH=src python tools/make_preview.py --out examples/output --preview examples/preview
 
 verify:  ## summarise an existing output directory
 	PYTHONPATH=src python -m usfeat.cli verify --out $(OUT)

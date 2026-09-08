@@ -1,0 +1,4 @@
+image_id,source,channel,roi,roi_n_voxels,meta_CDM_ID,meta_Center,meta_Histology,meta_Iota7_basic.extra_colourscore,imagenet_resnet50_0000,imagenet_resnet50_0001,imagenet_resnet50_0002,imagenet_resnet50_0003,imagenet_resnet50_0004,imagenet_resnet50_0005
+seg/0,segmented,grayscale,lesion,26936,,,benign,,0.05998,1.54071,0.03228,0.0,0.0,0.0
+seg/1,segmented,grayscale,lesion,36596,,,benign,,0.00657,0.0,0.00777,0.0,0.00031,0.0
+seg/2,segmented,grayscale,lesion,75773,,,benign,,0.01175,0.04055,0.0,0.0,0.0,0.0

@@ -1,0 +1,169 @@
+{
+  "usfeat_version": "0.1.0",
+  "finished_at": "2026-09-08T23:19:20+00:00",
+  "elapsed_seconds": 117.9,
+  "data_root": "/Users/kl2418/ovarian-us-feature-extraction/sample_data",
+  "output_dir": "/Users/kl2418/ovarian-us-feature-extraction/examples/output",
+  "config_fingerprint": "653c06c571010fbf",
+  "extractors_requested": [
+    "texlab",
+    "pyradiomics",
+    "dinov2",
+    "dinov3",
+    "biomedclip",
+    "siglip",
+    "imagenet"
+  ],
+  "extractors_ready": [
+    "pyradiomics",
+    "dinov2",
+    "dinov3",
+    "biomedclip",
+    "siglip",
+    "imagenet"
+  ],
+  "extractors_unavailable": [
+    "texlab"
+  ],
+  "images_found": 5,
+  "images_with_masks": 3,
+  "counts": {
+    "extractors_ready": 6,
+    "images_seen": 5,
+    "rows:pyradiomics": 17,
+    "rows:dinov2": 17,
+    "rows:dinov3": 17,
+    "rows:biomedclip": 17,
+    "rows:siglip": 17,
+    "rows:imagenet": 17,
+    "images_done": 5
+  },
+  "skips": {},
+  "errors_logged": 0,
+  "metadata_unmatched": {
+    "unsegmented": 0,
+    "segmented": 0
+  },
+  "tables": [
+    {
+      "file": "biomedclip__lesion.parquet",
+      "rows": 3
+    },
+    {
+      "file": "biomedclip__locule.parquet",
+      "rows": 3
+    },
+    {
+      "file": "biomedclip__projection.parquet",
+      "rows": 3
+    },
+    {
+      "file": "biomedclip__solid.parquet",
+      "rows": 3
+    },
+    {
+      "file": "biomedclip__whole.parquet",
+      "rows": 5
+    },
+    {
+      "file": "dinov2__lesion.parquet",
+      "rows": 3
+    },
+    {
+      "file": "dinov2__locule.parquet",
+      "rows": 3
+    },
+    {
+      "file": "dinov2__projection.parquet",
+      "rows": 3
+    },
+    {
+      "file": "dinov2__solid.parquet",
+      "rows": 3
+    },
+    {
+      "file": "dinov2__whole.parquet",
+      "rows": 5
+    },
+    {
+      "file": "dinov3__lesion.parquet",
+      "rows": 3
+    },
+    {
+      "file": "dinov3__locule.parquet",
+      "rows": 3
+    },
+    {
+      "file": "dinov3__projection.parquet",
+      "rows": 3
+    },
+    {
+      "file": "dinov3__solid.parquet",
+      "rows": 3
+    },
+    {
+      "file": "dinov3__whole.parquet",
+      "rows": 5
+    },
+    {
+      "file": "imagenet__lesion.parquet",
+      "rows": 3
+    },
+    {
+      "file": "imagenet__locule.parquet",
+      "rows": 3
+    },
+    {
+      "file": "imagenet__projection.parquet",
+      "rows": 3
+    },
+    {
+      "file": "imagenet__solid.parquet",
+      "rows": 3
+    },
+    {
+      "file": "imagenet__whole.parquet",
+      "rows": 5
+    },
+    {
+      "file": "pyradiomics__lesion.parquet",
+      "rows": 3
+    },
+    {
+      "file": "pyradiomics__locule.parquet",
+      "rows": 3
+    },
+    {
+      "file": "pyradiomics__projection.parquet",
+      "rows": 3
+    },
+    {
+      "file": "pyradiomics__solid.parquet",
+      "rows": 3
+    },
+    {
+      "file": "pyradiomics__whole.parquet",
+      "rows": 5
+    },
+    {
+      "file": "siglip__lesion.parquet",
+      "rows": 3
+    },
+    {
+      "file": "siglip__locule.parquet",
+      "rows": 3
+    },
+    {
+      "file": "siglip__projection.parquet",
+      "rows": 3
+    },
+    {
+      "file": "siglip__solid.parquet",
+      "rows": 3
+    },
+    {
+      "file": "siglip__whole.parquet",
+      "rows": 5
+    }
+  ]
+}

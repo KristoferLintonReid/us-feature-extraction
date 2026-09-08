@@ -1,0 +1,4 @@
+image_id,source,channel,roi,roi_n_voxels,meta_CDM_ID,meta_Center,meta_Histology,meta_Iota7_basic.extra_colourscore,dinov3_pooled_0000,dinov3_pooled_0001,dinov3_pooled_0002,dinov3_pooled_0003,dinov3_pooled_0004,dinov3_pooled_0005
+seg/0,segmented,grayscale,solid,19574,,,benign,,0.09763,0.37434,0.33429,-0.58311,-0.49909,0.17884
+seg/1,segmented,grayscale,solid,27796,,,benign,,0.43367,0.53162,-0.00352,-0.59954,-0.40252,-0.155
+seg/2,segmented,grayscale,solid,63548,,,benign,,0.0848,0.26124,0.03276,-1.02265,-0.2914,0.27013

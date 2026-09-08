@@ -53,6 +53,115 @@ docker run --rm -v /path/to/your/data:/data:ro usfeat:latest inspect --data /dat
 
 ---
 
+## How it works
+
+### The one idea
+
+Everything reduces to a single unit of work: **one image, one region, one extractor**.
+
+```
+your image  ──▶  ROI views  ──▶  each extractor  ──▶  one Parquet per (family × ROI)
+                     │
+                     ├── whole       the entire frame  ← the "no ROI" case
+                     ├── lesion
+                     ├── locule
+                     ├── projection
+                     └── solid
+```
+
+`whole` is not a special case in the code — it is a real region whose mask happens to cover the
+entire frame. That is why the no-ROI tables and the ROI tables come out identical in structure,
+and why adding an ROI later changes nothing else.
+
+### What each extractor is actually handed
+
+This is the part worth being concrete about, because "extract features from an ROI" hides a
+real choice. Below is one sample image, with every region and every presentation:
+
+![What each extractor is handed, per ROI](examples/figures/01_roi_inputs.png)
+
+- **Left column** — the region, drawn on the frame.
+- **Middle** (`roi_mode: crop`, the default) — the bounding box of the region plus 10 px, then
+  resized to the model's input size. The lesion fills the field of view, so texture and internal
+  structure dominate.
+- **Right** (`roi_mode: mask`) — the full frame with everything outside the region zeroed.
+  Position and scale are preserved, at the cost of feeding the network a lot of black.
+
+Neither is universally correct, so both are available, and `--roi-mode both` emits each with
+`_crop` / `_mask` column suffixes. **PyRadiomics and TexLab are unaffected by this** — they take
+the image and the binary mask directly, which is what they are defined on.
+
+### One image becomes five sets of tables
+
+![One image, five regions](examples/figures/02_all_rois.png)
+
+Each region is extracted independently. A locule of 6,974 px and a lesion of 26,936 px produce
+separate rows in separate files; nothing is averaged or merged.
+
+### Doppler
+
+![Doppler pair](examples/figures/03_doppler_pair.png)
+
+A filename appearing in both `images_grayscale/` and `images_doppler/` is one acquisition in two
+forms. Both become rows, sharing a `pair_id`, distinguished by `channel`. Colour is detected by
+checking whether the RGB channels genuinely differ, so a grayscale frame that happens to be
+stored as RGB is not mistaken for Doppler. Where colour is real the neural extractors receive
+it; PyRadiomics and TexLab receive luminance, since both are defined on scalar intensity.
+
+### Then
+
+Metadata is joined on, provenance is stamped into each file, and everything is written to
+Parquet. Failures are caught at three levels — extractor start-up, image load, and single
+extraction — so one bad file costs one row, never the run.
+
+---
+
+## Worked example
+
+`examples/` holds a complete run over five images from `sample_data/`:
+
+```bash
+usfeat extract --data sample_data --out examples/output --limit 5
+```
+
+**30 tables, 17 rows per family, 0 errors, ~2 minutes on CPU.** Five images: two without any
+ROI, three segmented with all four.
+
+| | |
+|---|---|
+| `examples/figures/` | the images above |
+| `examples/preview/README.md` | every table's shape, feature count and model |
+| `examples/preview/excerpts/` | the real first rows of all 30 tables, as CSV |
+| `examples/output/logs/` | the complete `run.log`, `errors.csv` and `summary.json` |
+| `examples/output/metadata/` | your spreadsheets, as Parquet |
+
+Rows per family: 17 = 5 whole-image + 3 lesion + 3 locule + 3 projection + 3 solid.
+
+The `.parquet` feature matrices are not committed — they are derived data and come to ~33 MB
+for five images. Regenerate them with the command above.
+
+Here is `biomedclip__lesion.csv`, unedited:
+
+```csv
+image_id,source,channel,roi,roi_n_voxels,meta_Histology,biomedclip_img_0000,biomedclip_img_0001
+seg/0,segmented,grayscale,lesion,26936,benign,0.84348,4.19151
+seg/1,segmented,grayscale,lesion,36596,benign,1.09595,0.75033
+seg/2,segmented,grayscale,lesion,75773,benign,1.01309,5.59269
+```
+
+and the same three images with **no ROI**, from `biomedclip__whole.csv`:
+
+```csv
+image_id,source,channel,roi,roi_n_voxels,meta_Histology,biomedclip_img_0000,biomedclip_img_0001
+seg/0,segmented,grayscale,whole,514983,benign,0.42716,6.03019
+seg/1,segmented,grayscale,whole,261786,benign,2.09279,2.10938
+```
+
+Same images, same model, different regions, different features — and `roi_n_voxels` tells you
+exactly which region produced each row.
+
+---
+
 ## Input layout
 
 This is the structure the pipeline expects. It matches what was agreed — no renaming needed.

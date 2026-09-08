@@ -1,0 +1,4 @@
+image_id,source,channel,roi,roi_n_voxels,meta_CDM_ID,meta_Center,meta_Histology,meta_Iota7_basic.extra_colourscore,siglip_pooled_0000,siglip_pooled_0001,siglip_pooled_0002,siglip_pooled_0003,siglip_pooled_0004,siglip_pooled_0005
+seg/0,segmented,grayscale,locule,6974,,,benign,,-0.1839,-0.41265,-0.12331,-0.57799,-0.21679,-0.0891
+seg/1,segmented,grayscale,locule,9383,,,benign,,-0.24189,0.02584,0.13856,0.08072,0.15257,-0.00905
+seg/2,segmented,grayscale,locule,21995,,,benign,,-0.10991,-0.61056,-0.28062,-1.19258,-0.05689,-0.01184

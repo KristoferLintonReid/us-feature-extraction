@@ -1,22 +1,27 @@
-# Never commit the TexLab plaintext, the payload key, or credentials.
+# Never commit the TexLab plaintext, the payload, or the key.
 texlab.key
 *.key
+*.enc
 secrets/
 texlab_src/
 TexLAB*/
-*.enc
+build/
 
-# Model weights are baked at build time, not versioned.
+# Model weights are baked in at image build time, not versioned.
 weights/
 *.pth
 *.safetensors
 *.bin
 
-# Run outputs
-out/
-output/
-*.parquet
-logs/
+# Run outputs. Scoped to the conventional output locations rather than a blanket
+# rule, so the committed example run under examples/ survives.
+/out/
+/output/
+/logs/
+
+# Feature matrices are derived data and large (~33 MB for a five-image run).
+# examples/preview/ carries the shapes and real excerpts instead.
+examples/output/features/
 
 # Python
 __pycache__/
@@ -25,4 +30,5 @@ __pycache__/
 venv/
 *.egg-info/
 .pytest_cache/
+.ruff_cache/
 .DS_Store
