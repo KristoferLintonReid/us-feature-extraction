@@ -275,6 +275,6 @@ exercised end to end. The lesion masks are real.
 
 ## Licence
 
-The pipeline code is proprietary to JuveX.AI. TexLab is proprietary and ships encrypted.
+The pipeline code is proprietary to Kristofer Linton-Reid. TexLab is proprietary and ships encrypted.
 MMOTU sample data is Apache-2.0. Model weights carry their own upstream licences
 (DINOv2/DINOv3: Meta; BiomedCLIP: MIT; SigLIP: Apache-2.0).

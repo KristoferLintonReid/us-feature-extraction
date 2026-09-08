@@ -1,4 +1,4 @@
-Copyright (c) 2026 JuveX.AI. All rights reserved.
+Copyright (c) 2026 Kristofer Linton-Reid. All rights reserved.
 
 This software is proprietary and confidential. It is provided to named
 collaborators solely for the purpose of extracting imaging features from their
@@ -8,7 +8,7 @@ Permitted:
   - Running the software, including as a container, on your own data.
   - Retaining and analysing the feature tables it produces.
 
-Not permitted without prior written consent from JuveX.AI:
+Not permitted without prior written consent from the copyright holder:
   - Redistribution of this software or any part of it.
   - Reverse engineering, decompiling, or attempting to recover the source of
     any encrypted component.
