@@ -18,4 +18,8 @@ services:
       - ${OUT_DIR:-./out}:/out
     # The TexLab payload is decrypted into /dev/shm; the 64 MB default is too small.
     shm_size: 2gb
+    # No network interface. All weights are baked in and nothing makes an
+    # outbound call, so the container cannot exfiltrate anything even in
+    # principle. Remove only if you are deliberately doing something online.
+    network_mode: none
     command: ["extract", "--data", "/data", "--out", "/out"]

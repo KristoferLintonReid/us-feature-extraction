@@ -53,6 +53,96 @@ docker run --rm -v /path/to/your/data:/data:ro usfeat:latest inspect --data /dat
 
 ---
 
+## Your data never leaves your machine
+
+Everything runs locally, inside the container, on your hardware. There is no server, no upload,
+no account, and no network call of any kind.
+
+```
+   your machine
+  ┌────────────────────────────────────────────────────┐
+  │  /your/data  ──(read-only mount)──▶  container     │
+  │                                       │            │
+  │                       TexLab + PyRadiomics +       │
+  │                       DINOv2/v3, BiomedCLIP,       │
+  │                       SigLIP, ImageNet             │
+  │                                       │            │
+  │  /your/output ◀──────────────────────┘             │
+  └────────────────────────────────────────────────────┘
+                  ✗ no network interface
+```
+
+This is enforced, not merely promised:
+
+- **`run.sh` starts the container with `--network none`.** It is given no network interface at
+  all. It could not transmit anything if it tried.
+- **Every model weight is baked into the image at build time.** Nothing is downloaded at run
+  time; the image also sets `HF_HUB_OFFLINE=1` and `TRANSFORMERS_OFFLINE=1`.
+- **No credentials are present at run time.** The Hugging Face token is a build argument only
+  and does not exist in the runtime image.
+- **The data mount is read-only** (`-v /your/data:/data:ro`). The pipeline cannot modify your
+  originals. It writes only to the output directory you nominate.
+- **The pipeline source contains no networking code at all** — no `requests`, no `urllib`, no
+  sockets. You can verify that yourself: `grep -rE "requests|urllib|http" src/`.
+
+Verify it on your own machine:
+
+```bash
+docker run --rm --network none usfeat:latest --version   # runs fine with no network
+```
+
+The container also runs unprivileged (`USER usfeat`, uid 1000). If your governance process
+wants belt and braces, `--cap-drop=ALL` can be added to `run.sh` safely. `--read-only` should
+also work — the TexLab payload unpacks to `/dev/shm`, which stays writable — but that
+combination has not been tested here, so try it on the sample data first.
+
+---
+
+## How TexLab runs, specifically
+
+TexLab is the one proprietary component, so it works differently from the rest — but it still
+runs entirely on your machine, on your data.
+
+**What you receive:** a Docker image. The TexLab source inside it is encrypted (AES-256-GCM) and
+you are not given the plaintext at any point.
+
+**What happens when you run it:**
+
+1. At the start of a run, the pipeline decrypts the TexLab payload into `/dev/shm` — a RAM-backed
+   filesystem *inside your container*. It is never written to disk.
+2. GNU Octave, installed in the image, executes TexLab against your images. **No MATLAB licence
+   is needed.**
+3. Each region is written out as a NIfTI image + mask pair, TexLab produces its ~3,900-column
+   results file, and that is parsed into the Parquet tables.
+4. When the run ends — including if it fails — the decrypted payload is overwritten and deleted.
+
+So: you run it, you get the features, your data stays put, and the source is not readable. The
+only thing you do not get is the TexLab code itself.
+
+```bash
+# TexLab alone, to check it works before a full run
+./run.sh /your/data /your/output --extractors texlab --limit 5
+```
+
+Expect `texlab__whole.parquet` plus one table per ROI. If `logs/errors.csv` shows `pkg load`
+failures, the image's Octave packages did not install — send that file back.
+
+### Getting the image without a registry
+
+If you would rather not pull from a registry, the image can be handed over as a file:
+
+```bash
+# on the machine that has the image
+docker save usfeat:latest | gzip > usfeat-image.tar.gz
+
+# on yours
+gunzip -c usfeat-image.tar.gz | docker load
+```
+
+That is a single file transfer, after which everything is offline and self-contained.
+
+---
+
 ## How it works
 
 ### The one idea

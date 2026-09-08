@@ -69,6 +69,22 @@ If the requirement hardens, there are two upgrade paths, in increasing order of 
 - Rotate the passphrase by re-running `pack_texlab.py`; every payload gets a fresh salt and
   nonce regardless.
 
+## Data locality
+
+Separate from protecting TexLab, and usually the collaborator's first question: **their images
+never leave their machine.**
+
+- `run.sh` and `docker-compose.yml` start the container with **no network interface**
+  (`--network none` / `network_mode: none`).
+- All model weights are baked in at build time; the runtime sets `HF_HUB_OFFLINE=1` and
+  `TRANSFORMERS_OFFLINE=1`.
+- The pipeline source contains no networking code — no `requests`, `urllib`, or sockets.
+- The data volume is mounted read-only.
+
+These are independent guarantees, so any one of them failing does not open a path out. The
+weakest link is the operator choosing to remove `--network none`, which is why the flag lives in
+the committed runner rather than in documentation.
+
 ## Other secrets
 
 `HF_TOKEN` is used **only at build time**, to download model weights into the image. It is not
