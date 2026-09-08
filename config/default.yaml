@@ -55,9 +55,11 @@ deep:
   device: auto          # auto | cpu | cuda | mps
   include_patch_mean: true
   dinov2_model: facebook/dinov2-base
-  # The facebook/dinov3-* repos are licence-gated; this timm re-host carries the
-  # same LVD-1689M weights without the gate.
-  dinov3_model: timm/vit_base_patch16_dinov3.lvd1689m
+  # Licence-gated on Hugging Face, but the weights are baked into the image at
+  # build time, so whoever runs the container never needs an HF account.
+  # Building on a machine without access? Use the ungated re-host of the same
+  # LVD-1689M weights: timm/vit_base_patch16_dinov3.lvd1689m
+  dinov3_model: facebook/dinov3-vitb16-pretrain-lvd1689m
   biomedclip_model: "hf-hub:microsoft/BiomedCLIP-PubMedBERT_256-vit_base_patch16_224"
   siglip_model: google/siglip-base-patch16-224
   imagenet_backbones:

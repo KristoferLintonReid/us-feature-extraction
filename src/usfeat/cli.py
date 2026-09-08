@@ -48,6 +48,8 @@ def build_parser() -> argparse.ArgumentParser:
     extract.add_argument("--device", help="torch device: auto|cpu|cuda|mps")
     extract.add_argument("--roi-mode", choices=["crop", "mask", "both"],
                          help="how ROIs are presented to the neural extractors")
+    extract.add_argument("--texlab-payload", type=Path,
+                         help="path to texlab.enc (default: the location baked into the image)")
     extract.add_argument("--texlab-key-file", type=Path,
                          help="file holding the TexLab payload key")
 
@@ -83,6 +85,8 @@ def _config_from_args(args: argparse.Namespace) -> Config:
         cfg.deep.device = args.device
     if getattr(args, "roi_mode", None):
         cfg.deep.roi_mode = args.roi_mode
+    if getattr(args, "texlab_payload", None):
+        cfg.texlab.payload = str(args.texlab_payload)
     if getattr(args, "texlab_key_file", None):
         cfg.texlab.key_file = str(args.texlab_key_file)
     return cfg

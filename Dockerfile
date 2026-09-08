@@ -80,9 +80,11 @@ COPY src/     /opt/usfeat/src/
 COPY config/  /opt/usfeat/config/
 COPY tools/   /opt/usfeat/tools/
 
-# The encrypted TexLab payload. Optional: the wildcard means the build succeeds
-# whether or not build/texlab.enc exists.
-COPY build*/texlab.en[c] /opt/usfeat/texlab/
+# The encrypted TexLab payload, which is optional. COPY needs at least one
+# source that definitely exists, so requirements.txt rides along as a dummy and
+# the bracket glob quietly matches nothing when build/texlab.enc is absent.
+COPY requirements.txt build/texlab.en[c] /opt/usfeat/texlab/
+RUN rm -f /opt/usfeat/texlab/requirements.txt
 
 # The payload key, baked in so the collaborator does not need one. See
 # docs/SECURITY.md for exactly what this protects against and what it does not.

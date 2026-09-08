@@ -88,7 +88,11 @@ class DeepConfig:
         default_factory=lambda: ["resnet50.a1_in1k", "vit_base_patch16_224.augreg_in21k_ft_in1k"]
     )
     dinov2_model: str = "facebook/dinov2-base"
-    dinov3_model: str = "timm/vit_base_patch16_dinov3.lvd1689m"
+    # The canonical Meta repo. It is licence-gated, but the weights are baked
+    # into the image at build time, so a collaborator never touches the gate.
+    # For a build machine without access, the ungated timm re-host carries the
+    # same LVD-1689M weights: timm/vit_base_patch16_dinov3.lvd1689m
+    dinov3_model: str = "facebook/dinov3-vitb16-pretrain-lvd1689m"
     biomedclip_model: str = "hf-hub:microsoft/BiomedCLIP-PubMedBERT_256-vit_base_patch16_224"
     siglip_model: str = "google/siglip-base-patch16-224"
 
@@ -158,7 +162,6 @@ class Config:
     texlab: TexLabConfig = field(default_factory=TexLabConfig)
     limit: int | None = None
     resume: bool = True
-    workers: int = 1
 
     # ---------------------------------------------------------------- loading
 
@@ -212,7 +215,7 @@ class Config:
         relevant = {
             k: v
             for k, v in self.to_dict().items()
-            if k not in {"output_dir", "limit", "resume", "workers", "data_root"}
+            if k not in {"output_dir", "limit", "resume", "data_root"}
         }
         blob = json.dumps(relevant, sort_keys=True, default=str)
         return hashlib.sha256(blob.encode()).hexdigest()[:16]

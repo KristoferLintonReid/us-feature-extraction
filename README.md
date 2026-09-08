@@ -8,7 +8,7 @@ and writes one Parquet table per (family × ROI) with the study metadata embedde
 | `texlab` | TexLab v3 (proprietary, encrypted, runs under Octave) | ~3,900 |
 | `pyradiomics` | PyRadiomics — all 7 classes × 9 image filters | ~1,150 |
 | `dinov2` | `facebook/dinov2-base` | 1,536 (CLS + patch-mean) |
-| `dinov3` | DINOv3 ViT-B/16 LVD-1689M | 1,536 (CLS + patch-mean) |
+| `dinov3` | `facebook/dinov3-vitb16-pretrain-lvd1689m` | 1,536 (pooled + patch-mean) |
 | `biomedclip` | BiomedCLIP PubMedBERT ViT-B/16 | 512 |
 | `siglip` | `google/siglip-base-patch16-224` | 1,536 (pooled + patch-mean) |
 | `imagenet` | ResNet-50 + ViT-B/16, supervised ImageNet | 2,816 |
@@ -229,6 +229,20 @@ docker build -t usfeat:latest \
 
 `build/texlab.key` must never be committed — `.gitignore` and `.dockerignore` both exclude it.
 See [docs/SECURITY.md](docs/SECURITY.md) for what the encryption does and does not protect against.
+
+### Verifying TexLab in the built image
+
+TexLab is the one component that needs Octave, so confirm it in the image before shipping:
+
+```bash
+docker run --rm \
+  -v "$PWD/sample_data":/data:ro -v /tmp/texlab-check:/out \
+  usfeat:latest extract --data /data --out /out --extractors texlab --limit 2
+```
+
+Expect `texlab__whole.parquet` and `texlab__lesion.parquet` with roughly 3,900 feature columns.
+If `logs/errors.csv` shows `pkg load` failures instead, the `octave-statistics`,
+`octave-image` or `octave-parallel` packages did not install — check the apt step.
 
 The image is CPU-only by default. For a GPU host:
 
