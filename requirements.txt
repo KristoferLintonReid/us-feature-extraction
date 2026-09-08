@@ -6,7 +6,13 @@ pillow>=10.0
 tifffile>=2023.4
 openpyxl>=3.1
 SimpleITK>=2.2
-pyradiomics>=3.1
+# pyradiomics is NOT installable from PyPI: the 3.1.0 sdist declares its own
+# version as 3.0.1a1, so pip rejects it as inconsistent metadata. Install it
+# from the git tag instead, after versioneer is present:
+#   pip install "numpy<2" setuptools wheel versioneer
+#   pip install --no-build-isolation \
+#     "pyradiomics @ git+https://github.com/AIM-Harvard/pyradiomics@v3.1.0"
+# The Dockerfile does exactly this.
 torch>=2.0
 torchvision>=0.15
 timm>=1.0

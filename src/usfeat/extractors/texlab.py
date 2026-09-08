@@ -179,11 +179,9 @@ class TexLabExtractor(Extractor):
             env=env,
         )
         if proc.returncode != 0 or not results.exists():
-            # Octave's stderr is where the useful message lives; keep the tail of it,
-            # but never echo the script (it contains payload paths).
-            tail = (proc.stderr or proc.stdout or "").strip().splitlines()[-15:]
             raise RuntimeError(
-                f"TexLab/Octave exited {proc.returncode}: " + " | ".join(tail)[:1500]
+                f"TexLab/Octave exited {proc.returncode}: "
+                + _octave_diagnosis(proc.stderr, proc.stdout)
             )
 
     # --------------------------------------------------------------- lifecycle
@@ -219,6 +217,33 @@ class TexLabExtractor(Extractor):
             self.close()
         except Exception:
             pass
+
+
+def _octave_diagnosis(stderr: str | None, stdout: str | None) -> str:
+    """Pull the actual error out of Octave's output.
+
+    Octave is extremely noisy: loading the statistics package alone emits a
+    dozen "shadows a core library function" warnings, and they are what you see
+    if you naively take the tail of stderr. The real cause is usually a single
+    line starting "error:". Those are surfaced first, with the warnings kept
+    only as a fallback so nothing is lost when the pattern does not match.
+    """
+    text = (stderr or "") + "\n" + (stdout or "")
+    lines = [ln.strip() for ln in text.splitlines() if ln.strip()]
+
+    errors, context = [], []
+    for line in lines:
+        low = line.lower()
+        if low.startswith("error:"):
+            errors.append(line)
+        elif "cannot open shared object" in low or "no such file" in low \
+                or "undefined" in low or "failed to load" in low:
+            context.append(line)
+
+    chosen = errors + [c for c in context if c not in errors]
+    if not chosen:
+        chosen = [ln for ln in lines if not ln.lower().startswith("warning")][-6:] or lines[-6:]
+    return " | ".join(chosen)[:1200]
 
 
 def _safe_extract(tar: tarfile.TarFile, dest: Path) -> None:
