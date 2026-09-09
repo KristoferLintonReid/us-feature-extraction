@@ -5,7 +5,7 @@ and writes one Parquet table per (family × ROI) with the study metadata embedde
 
 | Family | Source | Features per ROI |
 |---|---|---|
-| `texlab` | TexLab v3 (proprietary, encrypted, runs under Octave) | ~3,900 |
+| `texlab` | TexLab (proprietary, encrypted) — **not currently working, see below** | ~3,900 |
 | `pyradiomics` | PyRadiomics — all 7 classes × 9 image filters | ~1,150 |
 | `dinov2` | `facebook/dinov2-base` | 1,536 (CLS + patch-mean) |
 | `dinov3` | `facebook/dinov3-vitb16-pretrain-lvd1689m` | 1,536 (pooled + patch-mean) |
@@ -98,48 +98,58 @@ combination has not been tested here, so try it on the sample data first.
 
 ---
 
-## How TexLab runs, specifically
+## TexLab: status
 
-TexLab is the one proprietary component, so it works differently from the rest — but it still
-runs entirely on your machine, on your data.
+**TexLab does not currently run in the container.** The other six families do. This section
+says exactly where it stands, because the rest of this README would otherwise imply otherwise.
 
-**What you receive:** a Docker image. The TexLab source inside it is encrypted (AES-256-GCM) and
-you are not given the plaintext at any point.
+### What works
 
-**What happens when you run it:**
+The delivery mechanism is sound and verified end to end in the built image:
 
-1. At the start of a run, the pipeline decrypts the TexLab payload into `/dev/shm` — a RAM-backed
-   filesystem *inside your container*. It is never written to disk.
-2. GNU Octave, installed in the image, executes TexLab against your images. **No MATLAB licence
-   is needed.**
-3. Each region is written out as a NIfTI image + mask pair, TexLab produces its ~3,900-column
-   results file, and that is parsed into the Parquet tables.
-4. When the run ends — including if it fails — the decrypted payload is overwritten and deleted.
+- the encrypted payload decrypts into `/dev/shm` inside the container and is shredded on exit
+- the key baked into the image is found and used
+- GNU Octave 7.3.0 and a JVM are present, and TexLab's `TexLAB_cli` is invoked correctly
+- TexLab loads the NIfTI image and mask successfully and reaches its analysis entry point
 
-So: you run it, you get the features, your data stays put, and the source is not readable. The
-only thing you do not get is the TexLab code itself.
+### What does not
 
-```bash
-# TexLab alone, to check it works before a full run
-./run.sh /your/data /your/output --extractors texlab --limit 5
-```
+TexLab then fails inside Octave. Three distinct problems, found by running it:
 
-Expect `texlab__whole.parquet` plus one table per ROI. If `logs/errors.csv` shows `pkg load`
-failures, the image's Octave packages did not install — send that file back.
+1. `set_TexLAB_path` calls `javaclasspath`, so Octave needs a JVM. **Fixed** —
+   `default-jre-headless` is now installed in the image.
+2. The Octave branch of `TexLAB_analysisMain` uses `pararrayfun`, which must serialise its
+   captured variables to hand them to worker processes. One of them is a monitor *object*, and
+   Octave cannot serialise it: `octave_base_value::save_binary(): wrong type argument 'object'`.
+   Forcing the serial branch gets past this — and in TexLab v2 both branches call the identical
+   `do_case`, so that substitution is provably equivalent, not an approximation.
+3. Past that, it fails on `matrix cannot be indexed with {` and `clone: invalid object` —
+   MATLAB cell-indexing semantics that Octave does not share.
 
-### Getting the image without a registry
+Both TexLab v2 and v3 were tested. Both fail at (3). This is a porting problem in TexLab
+itself, not in the packaging around it.
 
-If you would rather not pull from a registry, the image can be handed over as a file:
+There is a further point worth knowing even if the porting were done: **the Octave and MATLAB
+branches of TexLab v3 are not the same code.** MATLAB runs `do_case_radiomics`, which adds IBSI
+features from the MATLAB Radiomics Toolbox; Octave runs `do_case`, which does not. So Octave
+TexLab would produce a *different feature set* from the MATLAB TexLab that earlier work was
+built on. TexLab v2 does not have this split — both its branches call the same `do_case`.
 
-```bash
-# on the machine that has the image
-docker save usfeat:latest | gzip > usfeat-image.tar.gz
+### The options
 
-# on yours
-gunzip -c usfeat-image.tar.gz | docker load
-```
+1. **MATLAB Compiler (`mcc`)** — compiles TexLab to a binary that runs on the free MATLAB
+   Runtime. It sidesteps Octave entirely, so none of the above applies, *and* it removes the
+   source from the artefact completely rather than merely encrypting it. This is the
+   recommended route. It needs a MATLAB Compiler licence.
+2. **Port TexLab to Octave** — fix (3) and whatever follows it. Unknown depth of work on
+   proprietary code, and it leaves the v2/v3 feature-set question open.
+3. **Run TexLab yourself** and share the resulting features, with the collaborator running the
+   other six families locally. No new engineering, but it means images or features move between
+   sites.
 
-That is a single file transfer, after which everything is offline and self-contained.
+Until one of those is done, run with `--extractors` excluding `texlab`, or leave it in: it
+reports itself cleanly, logs every failure, and costs nothing but the other six families still
+produce their tables.
 
 ---
 
@@ -406,8 +416,9 @@ pip install -e .
 usfeat extract --data /path/to/data --out /path/to/out
 ```
 
-TexLab additionally needs GNU Octave with the `statistics`, `image` and `parallel` packages,
-plus the payload and its key. Everything else runs on the Python dependencies alone.
+TexLab additionally needs GNU Octave (with `statistics`, `image`, `parallel`), a JVM, and the
+payload plus its key — and does not currently work even with all of those; see
+**TexLab: status**. Everything else runs on the Python dependencies alone.
 
 ---
 

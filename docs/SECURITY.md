@@ -26,8 +26,12 @@ At the start of a run, `TexLabExtractor` decrypts the payload into a private dir
 it, uses it, and shreds it (overwrite, then unlink) when the run ends, including on failure.
 The plaintext is never written to a persistent image layer or a mounted volume.
 
-Octave, not MATLAB, executes it. TexLab v3 supports Octave, so there is no MATLAB licence for
-the collaborator to obtain.
+Octave, not MATLAB, was intended to execute it, so that no MATLAB licence would need to travel
+with the container. **That does not currently work** -- TexLab fails inside Octave on MATLAB
+cell-indexing semantics; see the TexLab status section of the README. The encryption and
+delivery described here are verified and independent of that: the payload decrypts, unseals,
+and shreds correctly in the built image. It is the execution step that is unresolved, and the
+MATLAB Compiler route below would resolve it and strengthen the protection at the same time.
 
 ## What this actually buys you — and what it does not
 
