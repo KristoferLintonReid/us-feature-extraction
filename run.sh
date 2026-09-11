@@ -33,6 +33,7 @@ fi
 # Built as one list. Note the deliberate avoidance of separate empty arrays:
 # expanding an empty array under `set -u` is an error in bash 3.2, which macOS
 # still ships, and that fails before the container ever starts.
+# --shm-size: torch's dataloaders use /dev/shm and Docker's 64 MB default is tight.
 DOCKER_ARGS=(--rm --shm-size=2g)
 
 if docker info --format '{{.Runtimes}}' 2>/dev/null | grep -q nvidia; then
@@ -55,8 +56,6 @@ else
     DOCKER_ARGS+=(--network none)
 fi
 
-# --shm-size (set above) matters: the TexLab payload is decrypted into /dev/shm,
-# and the Docker default of 64 MB is not enough for it.
 docker run \
     "${DOCKER_ARGS[@]}" \
     -v "$DATA_DIR":/data:ro \

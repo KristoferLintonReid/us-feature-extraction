@@ -2,7 +2,7 @@
 
 ## The shape of the problem
 
-Seven feature families, five ROI presentations, two disjoint halves of a dataset, two metadata
+Six feature families, five ROI presentations, two disjoint halves of a dataset, two metadata
 schemas, and a hard requirement that nothing aborts the run. The design falls out of that:
 **one uniform unit of work**, and **containment at every boundary**.
 
@@ -36,14 +36,13 @@ ones. Nothing branches on "does this have a mask".
 | `extractors/` | One module per family, all behind `Extractor.extract(view) -> dict`. |
 | `writer.py` | Buffered shard-flushing Parquet writer, one per (family, ROI). Owns dedup, ordering, provenance, and resume. |
 | `pipeline.py` | The loop, and all the error containment. |
-| `crypto.py` | AES-256-GCM container for the TexLab payload. |
 
 ## Error containment
 
 Three nested levels, each of which continues rather than propagating:
 
 1. **Extractor construction** — a family that cannot initialise is logged and dropped from the
-   run. Six families still produce data when the seventh has no weights.
+   run. Five families still produce data when the sixth has no weights.
 2. **Image load** — a corrupt or unreadable file costs that one image, recorded in the ledger.
 3. **Single extraction** — `(view, extractor)` failures are caught individually. One ROI too
    small for texture analysis does not cost the other ROIs, or the other families.
@@ -62,13 +61,13 @@ problems under expected ones.
 ## Why one file per (family × ROI)
 
 The alternative — one wide table — is worse in every dimension that matters here. Families have
-wildly different column counts (512 to 3,900), different failure modes, and different row
+wildly different column counts (512 to ~2,800), different failure modes, and different row
 counts (whole-image covers every image; `solid` covers only the segmented subset with a solid
 component). Splitting means:
 
 - a family that fails entirely costs one file, not the whole output;
 - `resume` is per-file, so an interrupted run restarts at the right granularity;
-- loading only DINOv2-on-lesion does not mean reading 15,000 columns;
+- loading only DINOv2-on-lesion does not mean reading every family's columns at once;
 - provenance is per-file and specific — model id, library version, settings.
 
 Joining is trivial and always on `image_id`.
@@ -81,25 +80,6 @@ Shards are merged on finalize, deduplicated on `(image_id, roi)` keeping the las
 
 This means an interrupted run is restarted by re-issuing the same command. It also means
 adding a new extractor to a completed output directory computes only the new family.
-
-## TexLab
-
-The only family that is not pure Python. TexLab is a MATLAB/Octave toolbox, and proprietary,
-so it is the only one with a confidentiality requirement attached.
-
-```
-texlab.enc  ──decrypt──▶  /dev/shm/usfeat-texlab-xxxx/  ──octave-cli──▶  results.tsv  ──parse──▶  dict
-                                    │
-                                    └── shredded on close(), including on failure
-```
-
-TexLab v3 supports Octave, which is what makes this workable — no MATLAB licence has to travel
-with the container. Each ROI is written out as a single-slice NIfTI image + mask pair, handed
-to `TexLAB_cli`, and the ~3,900-column TSV is parsed back.
-
-See [SECURITY.md](SECURITY.md) for the threat model, which is stated honestly: this is
-obfuscation against an honest collaborator, not protection against a determined root user. The
-upgrade path (MATLAB Compiler) is contained to two methods.
 
 ## Presentation choices worth knowing about
 
@@ -121,5 +101,5 @@ belongs to the data, not the code.
 
 **Doppler is not discarded.** Colour is detected by checking whether the RGB channels actually
 differ, so a grayscale frame stored as RGB is not mistaken for Doppler. Where colour is real,
-the neural extractors receive the RGB; PyRadiomics and TexLab receive the luminance, since both
-are defined on scalar intensity.
+the neural extractors receive the RGB; PyRadiomics receives the luminance, since it is defined
+on scalar intensity.

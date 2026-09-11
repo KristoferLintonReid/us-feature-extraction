@@ -1,13 +1,12 @@
 {
   "run": {
     "usfeat_version": "0.1.0",
-    "finished_at": "2026-09-08T23:19:20+00:00",
-    "elapsed_seconds": 117.9,
-    "data_root": "/Users/kl2418/ovarian-us-feature-extraction/sample_data",
-    "output_dir": "/Users/kl2418/ovarian-us-feature-extraction/examples/output",
-    "config_fingerprint": "653c06c571010fbf",
+    "finished_at": "2026-09-11T13:55:45+00:00",
+    "elapsed_seconds": 284.5,
+    "data_root": "sample_data",
+    "output_dir": "examples/output",
+    "config_fingerprint": "64cb15c4b3c1ac26",
     "extractors_requested": [
-      "texlab",
       "pyradiomics",
       "dinov2",
       "dinov3",
@@ -23,9 +22,7 @@
       "siglip",
       "imagenet"
     ],
-    "extractors_unavailable": [
-      "texlab"
-    ],
+    "extractors_unavailable": [],
     "images_found": 5,
     "images_with_masks": 3,
     "counts": {
@@ -177,7 +174,7 @@
       "columns": 535,
       "n_features": 512,
       "n_metadata": 9,
-      "size_bytes": 364918,
+      "size_bytes": 364382,
       "model": "hf-hub:microsoft/BiomedCLIP-PubMedBERT_256-vit_base_patch16_224",
       "first_features": [
         "biomedclip_img_0000",
@@ -198,7 +195,7 @@
       "columns": 535,
       "n_features": 512,
       "n_metadata": 9,
-      "size_bytes": 364919,
+      "size_bytes": 364382,
       "model": "hf-hub:microsoft/BiomedCLIP-PubMedBERT_256-vit_base_patch16_224",
       "first_features": [
         "biomedclip_img_0000",
@@ -219,7 +216,7 @@
       "columns": 535,
       "n_features": 512,
       "n_metadata": 9,
-      "size_bytes": 364962,
+      "size_bytes": 364435,
       "model": "hf-hub:microsoft/BiomedCLIP-PubMedBERT_256-vit_base_patch16_224",
       "first_features": [
         "biomedclip_img_0000",
@@ -240,7 +237,7 @@
       "columns": 535,
       "n_features": 512,
       "n_metadata": 9,
-      "size_bytes": 364896,
+      "size_bytes": 364370,
       "model": "hf-hub:microsoft/BiomedCLIP-PubMedBERT_256-vit_base_patch16_224",
       "first_features": [
         "biomedclip_img_0000",
@@ -261,7 +258,7 @@
       "columns": 535,
       "n_features": 512,
       "n_metadata": 9,
-      "size_bytes": 373881,
+      "size_bytes": 373576,
       "model": "hf-hub:microsoft/BiomedCLIP-PubMedBERT_256-vit_base_patch16_224",
       "first_features": [
         "biomedclip_img_0000",
@@ -282,7 +279,7 @@
       "columns": 1559,
       "n_features": 1536,
       "n_metadata": 9,
-      "size_bytes": 1070683,
+      "size_bytes": 1070147,
       "model": "facebook/dinov2-base",
       "first_features": [
         "dinov2_pooled_0000",
@@ -303,7 +300,7 @@
       "columns": 1559,
       "n_features": 1536,
       "n_metadata": 9,
-      "size_bytes": 1070684,
+      "size_bytes": 1070147,
       "model": "facebook/dinov2-base",
       "first_features": [
         "dinov2_pooled_0000",
@@ -324,7 +321,7 @@
       "columns": 1559,
       "n_features": 1536,
       "n_metadata": 9,
-      "size_bytes": 1070727,
+      "size_bytes": 1070204,
       "model": "facebook/dinov2-base",
       "first_features": [
         "dinov2_pooled_0000",
@@ -345,7 +342,7 @@
       "columns": 1559,
       "n_features": 1536,
       "n_metadata": 9,
-      "size_bytes": 1070661,
+      "size_bytes": 1070135,
       "model": "facebook/dinov2-base",
       "first_features": [
         "dinov2_pooled_0000",
@@ -366,7 +363,7 @@
       "columns": 1559,
       "n_features": 1536,
       "n_metadata": 9,
-      "size_bytes": 1097041,
+      "size_bytes": 1096732,
       "model": "facebook/dinov2-base",
       "first_features": [
         "dinov2_pooled_0000",
@@ -387,7 +384,7 @@
       "columns": 1559,
       "n_features": 1536,
       "n_metadata": 9,
-      "size_bytes": 1070723,
+      "size_bytes": 1070199,
       "model": "facebook/dinov3-vitb16-pretrain-lvd1689m",
       "first_features": [
         "dinov3_pooled_0000",
@@ -408,7 +405,7 @@
       "columns": 1559,
       "n_features": 1536,
       "n_metadata": 9,
-      "size_bytes": 1070724,
+      "size_bytes": 1070199,
       "model": "facebook/dinov3-vitb16-pretrain-lvd1689m",
       "first_features": [
         "dinov3_pooled_0000",
@@ -429,7 +426,7 @@
       "columns": 1559,
       "n_features": 1536,
       "n_metadata": 9,
-      "size_bytes": 1070779,
+      "size_bytes": 1070244,
       "model": "facebook/dinov3-vitb16-pretrain-lvd1689m",
       "first_features": [
         "dinov3_pooled_0000",
@@ -450,7 +447,7 @@
       "columns": 1559,
       "n_features": 1536,
       "n_metadata": 9,
-      "size_bytes": 1070713,
+      "size_bytes": 1070175,
       "model": "facebook/dinov3-vitb16-pretrain-lvd1689m",
       "first_features": [
         "dinov3_pooled_0000",
@@ -471,7 +468,7 @@
       "columns": 1559,
       "n_features": 1536,
       "n_metadata": 9,
-      "size_bytes": 1097086,
+      "size_bytes": 1096769,
       "model": "facebook/dinov3-vitb16-pretrain-lvd1689m",
       "first_features": [
         "dinov3_pooled_0000",
@@ -492,7 +489,7 @@
       "columns": 2839,
       "n_features": 2816,
       "n_metadata": 9,
-      "size_bytes": 2064604,
+      "size_bytes": 2064068,
       "model": "resnet50.a1_in1k,vit_base_patch16_224.augreg_in21k_ft_in1k",
       "first_features": [
         "imagenet_resnet50_0000",
@@ -513,7 +510,7 @@
       "columns": 2839,
       "n_features": 2816,
       "n_metadata": 9,
-      "size_bytes": 2065297,
+      "size_bytes": 2064760,
       "model": "resnet50.a1_in1k,vit_base_patch16_224.augreg_in21k_ft_in1k",
       "first_features": [
         "imagenet_resnet50_0000",
@@ -534,7 +531,7 @@
       "columns": 2839,
       "n_features": 2816,
       "n_metadata": 9,
-      "size_bytes": 2064647,
+      "size_bytes": 2064124,
       "model": "resnet50.a1_in1k,vit_base_patch16_224.augreg_in21k_ft_in1k",
       "first_features": [
         "imagenet_resnet50_0000",
@@ -555,7 +552,7 @@
       "columns": 2839,
       "n_features": 2816,
       "n_metadata": 9,
-      "size_bytes": 2065012,
+      "size_bytes": 2064482,
       "model": "resnet50.a1_in1k,vit_base_patch16_224.augreg_in21k_ft_in1k",
       "first_features": [
         "imagenet_resnet50_0000",
@@ -576,7 +573,7 @@
       "columns": 2839,
       "n_features": 2816,
       "n_metadata": 9,
-      "size_bytes": 2108862,
+      "size_bytes": 2108556,
       "model": "resnet50.a1_in1k,vit_base_patch16_224.augreg_in21k_ft_in1k",
       "first_features": [
         "imagenet_resnet50_0000",
@@ -597,7 +594,7 @@
       "columns": 1170,
       "n_features": 1147,
       "n_metadata": 9,
-      "size_bytes": 1005078,
+      "size_bytes": 1004554,
       "model": "v3.1.0",
       "first_features": [
         "pyrad_diag_Versions_PyRadiomics",
@@ -618,7 +615,7 @@
       "columns": 1170,
       "n_features": 1147,
       "n_metadata": 9,
-      "size_bytes": 1005079,
+      "size_bytes": 1004555,
       "model": "v3.1.0",
       "first_features": [
         "pyrad_diag_Versions_PyRadiomics",
@@ -639,7 +636,7 @@
       "columns": 1170,
       "n_features": 1147,
       "n_metadata": 9,
-      "size_bytes": 1005142,
+      "size_bytes": 1004607,
       "model": "v3.1.0",
       "first_features": [
         "pyrad_diag_Versions_PyRadiomics",
@@ -660,7 +657,7 @@
       "columns": 1170,
       "n_features": 1147,
       "n_metadata": 9,
-      "size_bytes": 1005073,
+      "size_bytes": 1004536,
       "model": "v3.1.0",
       "first_features": [
         "pyrad_diag_Versions_PyRadiomics",
@@ -681,7 +678,7 @@
       "columns": 1170,
       "n_features": 1147,
       "n_metadata": 9,
-      "size_bytes": 1023010,
+      "size_bytes": 1022701,
       "model": "v3.1.0",
       "first_features": [
         "pyrad_diag_Versions_PyRadiomics",
@@ -702,7 +699,7 @@
       "columns": 1559,
       "n_features": 1536,
       "n_metadata": 9,
-      "size_bytes": 1070705,
+      "size_bytes": 1070177,
       "model": "google/siglip-base-patch16-224",
       "first_features": [
         "siglip_pooled_0000",
@@ -723,7 +720,7 @@
       "columns": 1559,
       "n_features": 1536,
       "n_metadata": 9,
-      "size_bytes": 1070706,
+      "size_bytes": 1070177,
       "model": "google/siglip-base-patch16-224",
       "first_features": [
         "siglip_pooled_0000",
@@ -744,7 +741,7 @@
       "columns": 1559,
       "n_features": 1536,
       "n_metadata": 9,
-      "size_bytes": 1070757,
+      "size_bytes": 1070222,
       "model": "google/siglip-base-patch16-224",
       "first_features": [
         "siglip_pooled_0000",
@@ -765,7 +762,7 @@
       "columns": 1559,
       "n_features": 1536,
       "n_metadata": 9,
-      "size_bytes": 1070695,
+      "size_bytes": 1070157,
       "model": "google/siglip-base-patch16-224",
       "first_features": [
         "siglip_pooled_0000",
@@ -786,7 +783,7 @@
       "columns": 1559,
       "n_features": 1536,
       "n_metadata": 9,
-      "size_bytes": 1097070,
+      "size_bytes": 1096753,
       "model": "google/siglip-base-patch16-224",
       "first_features": [
         "siglip_pooled_0000",

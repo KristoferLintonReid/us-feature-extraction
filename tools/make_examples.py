@@ -88,7 +88,7 @@ def figure_roi_inputs(view_map: dict, image, out: Path) -> Path:
     axes[0, 1].imshow(_fit_square(to_rgb_uint8(gray)))
     _style(axes[0, 1], "→ neural extractors", "resized to 224/256 px")
     axes[0, 2].imshow(_fit_square(to_rgb_uint8(gray)))
-    _style(axes[0, 2], "→ PyRadiomics / TexLab", "mask = entire frame")
+    _style(axes[0, 2], "→ PyRadiomics", "mask = entire frame")
 
     for i, roi in enumerate(rois, start=1):
         view = view_map[roi]

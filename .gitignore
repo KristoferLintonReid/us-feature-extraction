@@ -1,10 +1,6 @@
-# Never commit the TexLab plaintext, the payload, or the key.
-texlab.key
+# Credentials never belong in the repo.
 *.key
-*.enc
 secrets/
-texlab_src/
-TexLAB*/
 build/
 
 # Model weights are baked in at image build time, not versioned.

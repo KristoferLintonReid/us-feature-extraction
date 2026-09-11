@@ -1,4 +1,4 @@
-"""Tests that do not need model weights, Octave, or the TexLab payload.
+"""Tests that do not need model weights.
 
 Run with:  python -m pytest tests -v
 """
@@ -14,7 +14,6 @@ from PIL import Image
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "src"))
 
 from usfeat.config import Config  # noqa: E402
-from usfeat.crypto import decrypt, encrypt  # noqa: E402
 from usfeat.discovery import discover  # noqa: E402
 from usfeat.imaging import (  # noqa: E402
     bbox, crop_to_mask, load_image, load_mask, n_components, to_rgb_uint8,
@@ -259,34 +258,6 @@ def test_unmatched_key_is_counted(tree: Path, tmp_path: Path):
     store = load_metadata(cfg)
     assert store.lookup("unsegmented", "CASE-001.tiff") == {}
     assert store.miss_counts["unsegmented"] == 1
-
-
-# ------------------------------------------------------------------------ crypto
-
-
-def test_payload_round_trips():
-    plaintext = b"proprietary TexLab source" * 500
-    blob = encrypt(plaintext, "correct horse battery staple")
-    assert plaintext not in blob
-    assert decrypt(blob, "correct horse battery staple") == plaintext
-
-
-def test_wrong_key_is_refused():
-    blob = encrypt(b"secret", "right")
-    with pytest.raises(ValueError, match="failed to decrypt"):
-        decrypt(blob, "wrong")
-
-
-def test_tampered_payload_is_refused():
-    blob = bytearray(encrypt(b"secret payload", "key"))
-    blob[-1] ^= 0xFF
-    with pytest.raises(ValueError):
-        decrypt(bytes(blob), "key")
-
-
-def test_non_payload_is_rejected_on_magic():
-    with pytest.raises(ValueError, match="magic"):
-        decrypt(b"x" * 100, "key")
 
 
 # ------------------------------------------------------------------------ config

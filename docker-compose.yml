@@ -12,11 +12,10 @@ services:
       context: .
       args:
         HF_TOKEN: ${HF_TOKEN:-}
-        TEXLAB_KEY: ${TEXLAB_KEY:-}
     volumes:
       - ${DATA_DIR:-./sample_data}:/data:ro
       - ${OUT_DIR:-./out}:/out
-    # The TexLab payload is decrypted into /dev/shm; the 64 MB default is too small.
+    # torch's dataloaders use /dev/shm; the 64 MB default is tight.
     shm_size: 2gb
     # No network interface. All weights are baked in and nothing makes an
     # outbound call, so the container cannot exfiltrate anything even in

@@ -11,9 +11,9 @@ log = get_logger("extractors")
 def build_extractors(cfg: Config) -> list[Extractor]:
     """Instantiate the requested extractors.
 
-    An extractor that cannot initialise (missing weights, no Octave, no licence
-    key) is reported and dropped rather than aborting the run -- the other
-    families are still worth having.
+    An extractor that cannot initialise (for example, missing model weights) is
+    reported and dropped rather than aborting the run -- the other families are
+    still worth having.
     """
     built: list[Extractor] = []
     for name in cfg.extractors:
@@ -33,10 +33,6 @@ def _build_one(name: str, cfg: Config) -> Extractor:
         from .pyradiomics_ext import PyRadiomicsExtractor
 
         return PyRadiomicsExtractor(cfg)
-    if name == "texlab":
-        from .texlab import TexLabExtractor
-
-        return TexLabExtractor(cfg)
     if name in ("dinov2", "dinov3", "biomedclip", "siglip", "imagenet"):
         from .deep import build_deep_extractor
 

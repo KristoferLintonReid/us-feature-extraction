@@ -10,6 +10,4 @@ __pycache__/
 .pytest_cache/
 .DS_Store
 docs/
-# The key must never enter the build context; it arrives as a --build-arg.
-build/texlab.key
 *.key

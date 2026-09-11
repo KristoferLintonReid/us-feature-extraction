@@ -1,11 +1,10 @@
 # usfeat — ultrasound feature extraction
 
-Extracts **seven independent feature families** from 2D ultrasound, **whole-image and per-ROI**,
+Extracts **six independent feature families** from 2D ultrasound, **whole-image and per-ROI**,
 and writes one Parquet table per (family × ROI) with the study metadata embedded in every file.
 
 | Family | Source | Features per ROI |
 |---|---|---|
-| `texlab` | TexLab (proprietary, encrypted) — **not currently working, see below** | ~3,900 |
 | `pyradiomics` | PyRadiomics — all 7 classes × 9 image filters | ~1,150 |
 | `dinov2` | `facebook/dinov2-base` | 1,536 (CLS + patch-mean) |
 | `dinov3` | `facebook/dinov3-vitb16-pretrain-lvd1689m` | 1,536 (pooled + patch-mean) |
@@ -13,8 +12,8 @@ and writes one Parquet table per (family × ROI) with the study metadata embedde
 | `siglip` | `google/siglip-base-patch16-224` | 1,536 (pooled + patch-mean) |
 | `imagenet` | ResNet-50 + ViT-B/16, supervised ImageNet | 2,816 |
 
-Every family is optional and independent. One that cannot start (missing weights, no Octave,
-no TexLab key) reports itself and the rest of the run proceeds.
+Every family is optional and independent. One that cannot start (missing weights, say) reports
+itself and the rest of the run proceeds.
 
 ---
 
@@ -63,9 +62,9 @@ no account, and no network call of any kind.
   ┌────────────────────────────────────────────────────┐
   │  /your/data  ──(read-only mount)──▶  container     │
   │                                       │            │
-  │                       TexLab + PyRadiomics +       │
-  │                       DINOv2/v3, BiomedCLIP,       │
-  │                       SigLIP, ImageNet             │
+  │                       PyRadiomics, DINOv2/v3,      │
+  │                       BiomedCLIP, SigLIP,          │
+  │                       ImageNet                     │
   │                                       │            │
   │  /your/output ◀──────────────────────┘             │
   └────────────────────────────────────────────────────┘
@@ -93,63 +92,7 @@ docker run --rm --network none usfeat:latest --version   # runs fine with no net
 
 The container also runs unprivileged (`USER usfeat`, uid 1000). If your governance process
 wants belt and braces, `--cap-drop=ALL` can be added to `run.sh` safely. `--read-only` should
-also work — the TexLab payload unpacks to `/dev/shm`, which stays writable — but that
-combination has not been tested here, so try it on the sample data first.
-
----
-
-## TexLab: status
-
-**TexLab does not currently run in the container.** The other six families do. This section
-says exactly where it stands, because the rest of this README would otherwise imply otherwise.
-
-### What works
-
-The delivery mechanism is sound and verified end to end in the built image:
-
-- the encrypted payload decrypts into `/dev/shm` inside the container and is shredded on exit
-- the key baked into the image is found and used
-- GNU Octave 7.3.0 and a JVM are present, and TexLab's `TexLAB_cli` is invoked correctly
-- TexLab loads the NIfTI image and mask successfully and reaches its analysis entry point
-
-### What does not
-
-TexLab then fails inside Octave. Three distinct problems, found by running it:
-
-1. `set_TexLAB_path` calls `javaclasspath`, so Octave needs a JVM. **Fixed** —
-   `default-jre-headless` is now installed in the image.
-2. The Octave branch of `TexLAB_analysisMain` uses `pararrayfun`, which must serialise its
-   captured variables to hand them to worker processes. One of them is a monitor *object*, and
-   Octave cannot serialise it: `octave_base_value::save_binary(): wrong type argument 'object'`.
-   Forcing the serial branch gets past this — and in TexLab v2 both branches call the identical
-   `do_case`, so that substitution is provably equivalent, not an approximation.
-3. Past that, it fails on `matrix cannot be indexed with {` and `clone: invalid object` —
-   MATLAB cell-indexing semantics that Octave does not share.
-
-Both TexLab v2 and v3 were tested. Both fail at (3). This is a porting problem in TexLab
-itself, not in the packaging around it.
-
-There is a further point worth knowing even if the porting were done: **the Octave and MATLAB
-branches of TexLab v3 are not the same code.** MATLAB runs `do_case_radiomics`, which adds IBSI
-features from the MATLAB Radiomics Toolbox; Octave runs `do_case`, which does not. So Octave
-TexLab would produce a *different feature set* from the MATLAB TexLab that earlier work was
-built on. TexLab v2 does not have this split — both its branches call the same `do_case`.
-
-### The options
-
-1. **MATLAB Compiler (`mcc`)** — compiles TexLab to a binary that runs on the free MATLAB
-   Runtime. It sidesteps Octave entirely, so none of the above applies, *and* it removes the
-   source from the artefact completely rather than merely encrypting it. This is the
-   recommended route. It needs a MATLAB Compiler licence.
-2. **Port TexLab to Octave** — fix (3) and whatever follows it. Unknown depth of work on
-   proprietary code, and it leaves the v2/v3 feature-set question open.
-3. **Run TexLab yourself** and share the resulting features, with the collaborator running the
-   other six families locally. No new engineering, but it means images or features move between
-   sites.
-
-Until one of those is done, run with `--extractors` excluding `texlab`, or leave it in: it
-reports itself cleanly, logs every failure, and costs nothing but the other six families still
-produce their tables.
+also work, but that combination has not been tested here, so try it on the sample data first.
 
 ---
 
@@ -188,8 +131,8 @@ real choice. Below is one sample image, with every region and every presentation
   Position and scale are preserved, at the cost of feeding the network a lot of black.
 
 Neither is universally correct, so both are available, and `--roi-mode both` emits each with
-`_crop` / `_mask` column suffixes. **PyRadiomics and TexLab are unaffected by this** — they take
-the image and the binary mask directly, which is what they are defined on.
+`_crop` / `_mask` column suffixes. **PyRadiomics is unaffected by this** — it takes the image
+and the binary mask directly, which is what it is defined on.
 
 ### One image becomes five sets of tables
 
@@ -206,7 +149,7 @@ A filename appearing in both `images_grayscale/` and `images_doppler/` is one ac
 forms. Both become rows, sharing a `pair_id`, distinguished by `channel`. Colour is detected by
 checking whether the RGB channels genuinely differ, so a grayscale frame that happens to be
 stored as RGB is not mistaken for Doppler. Where colour is real the neural extractors receive
-it; PyRadiomics and TexLab receive luminance, since both are defined on scalar intensity.
+it; PyRadiomics receives luminance, since it is defined on scalar intensity.
 
 ### Then
 
@@ -313,14 +256,14 @@ If a sheet is missing or a key does not match, the features are still produced �
 ```
 <out>/
 ├── features/
-│   ├── texlab__whole.parquet          ← no ROI: whole image
-│   ├── texlab__lesion.parquet
-│   ├── texlab__locule.parquet
-│   ├── texlab__projection.parquet
-│   ├── texlab__solid.parquet
-│   ├── pyradiomics__whole.parquet
+│   ├── pyradiomics__whole.parquet     ← no ROI: whole image
 │   ├── pyradiomics__lesion.parquet
-│   ├── ...                            (7 families × 5 ROIs = up to 35 tables)
+│   ├── pyradiomics__locule.parquet
+│   ├── pyradiomics__projection.parquet
+│   ├── pyradiomics__solid.parquet
+│   ├── dinov2__whole.parquet
+│   ├── dinov2__lesion.parquet
+│   ├── ...                            (6 families × 5 ROIs = up to 30 tables)
 ├── metadata/
 │   ├── metadata_unsegmented.parquet   the sheets as supplied
 │   └── metadata_segmented.parquet
@@ -336,7 +279,7 @@ Each feature table has:
   `roi_mask_path`, `roi_n_voxels`, `roi_n_components`, `roi_fraction`, `image_height`,
   `image_width`, `image_is_colour`
 - **`meta_*` columns** — everything from your spreadsheets
-- **feature columns** — prefixed by family (`pyrad_`, `dinov2_`, `texlab_`, …)
+- **feature columns** — prefixed by family (`pyrad_`, `dinov2_`, `dinov3_`, …)
 
 Plus **provenance in the Parquet file metadata**: model id, library versions, settings, and a
 config fingerprint. So a table stays self-describing after it leaves the machine that made it:
@@ -404,7 +347,7 @@ extract --no-resume                        # recompute everything
 
 For `whole` these collapse to the same thing, so it is computed once.
 
-PyRadiomics and TexLab are unaffected by this — they always take image + binary mask directly.
+PyRadiomics is unaffected by this — it always takes image + binary mask directly.
 
 ---
 
@@ -416,43 +359,19 @@ pip install -e .
 usfeat extract --data /path/to/data --out /path/to/out
 ```
 
-TexLab additionally needs GNU Octave (with `statistics`, `image`, `parallel`), a JVM, and the
-payload plus its key — and does not currently work even with all of those; see
-**TexLab: status**. Everything else runs on the Python dependencies alone.
+Everything runs on the Python dependencies alone.
 
 ---
 
 ## Building the image
 
 ```bash
-# 1. Package the proprietary TexLab source (run once, on a machine that has it).
-python tools/pack_texlab.py \
-  --texlab-dir /path/to/TexLAB_v3 \
-  --saved-parameters /path/to/saved_parameters.mat \
-  --out build/texlab.enc --key-out build/texlab.key
-
-# 2. Build, baking in the weights and the payload key.
-docker build -t usfeat:latest \
-  --build-arg HF_TOKEN=hf_xxx \
-  --build-arg TEXLAB_KEY="$(cat build/texlab.key)" .
+HF_TOKEN=hf_xxx docker build -t usfeat:latest --secret id=hf_token,env=HF_TOKEN .
 ```
 
-`build/texlab.key` must never be committed — `.gitignore` and `.dockerignore` both exclude it.
-See [docs/SECURITY.md](docs/SECURITY.md) for what the encryption does and does not protect against.
-
-### Verifying TexLab in the built image
-
-TexLab is the one component that needs Octave, so confirm it in the image before shipping:
-
-```bash
-docker run --rm \
-  -v "$PWD/sample_data":/data:ro -v /tmp/texlab-check:/out \
-  usfeat:latest extract --data /data --out /out --extractors texlab --limit 2
-```
-
-Expect `texlab__whole.parquet` and `texlab__lesion.parquet` with roughly 3,900 feature columns.
-If `logs/errors.csv` shows `pkg load` failures instead, the `octave-statistics`,
-`octave-image` or `octave-parallel` packages did not install — check the apt step.
+The token is mounted as a BuildKit secret, so it never lands in `docker history` or an image
+layer. It is used only to download model weights at build time — the runtime stage carries no
+credentials and makes no network calls. See [docs/SECURITY.md](docs/SECURITY.md).
 
 The image is CPU-only by default. For a GPU host:
 
@@ -485,6 +404,5 @@ exercised end to end. The lesion masks are real.
 
 ## Licence
 
-The pipeline code is proprietary to Kristofer Linton-Reid. TexLab is proprietary and ships encrypted.
-MMOTU sample data is Apache-2.0. Model weights carry their own upstream licences
+The pipeline code is proprietary to Kristofer Linton-Reid. MMOTU sample data is Apache-2.0. Model weights carry their own upstream licences
 (DINOv2/DINOv3: Meta; BiomedCLIP: MIT; SigLIP: Apache-2.0).

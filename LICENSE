@@ -10,13 +10,8 @@ Permitted:
 
 Not permitted without prior written consent from the copyright holder:
   - Redistribution of this software or any part of it.
-  - Reverse engineering, decompiling, or attempting to recover the source of
-    any encrypted component.
+  - Reverse engineering or decompiling.
   - Use in any commercial product or service.
-
-The TexLab texture analysis toolbox is the property of its respective authors
-(Imperial College London) and is distributed here only in encrypted form under
-separate terms.
 
 Third-party components retain their own licences:
   - PyRadiomics: BSD-3-Clause

@@ -1,211 +1,208 @@
-2026-09-09 00:17:22 INFO     usfeat.pipeline: usfeat 0.1.0 | data_root=/Users/kl2418/ovarian-us-feature-extraction/sample_data | output=/Users/kl2418/ovarian-us-feature-extraction/examples/output
-2026-09-09 00:17:22 INFO     usfeat.pipeline: extractors requested: texlab, pyradiomics, dinov2, dinov3, biomedclip, siglip, imagenet
-2026-09-09 00:17:22 INFO     usfeat.discovery: found 7 grayscale and 3 doppler images under /Users/kl2418/ovarian-us-feature-extraction/sample_data
-2026-09-09 00:17:22 INFO     usfeat.discovery: 3 acquisitions have both a Doppler and a Doppler-removed image
-2026-09-09 00:17:22 INFO     usfeat.discovery: found 6 segmented images under /Users/kl2418/ovarian-us-feature-extraction/sample_data/images_seg
-2026-09-09 00:17:22 INFO     usfeat.discovery:   ROI lesion      6 masks
-2026-09-09 00:17:22 INFO     usfeat.discovery:   ROI locule      6 masks
-2026-09-09 00:17:22 INFO     usfeat.discovery:   ROI projection  6 masks
-2026-09-09 00:17:22 INFO     usfeat.discovery:   ROI solid       6 masks
-2026-09-09 00:17:22 INFO     usfeat.discovery: --limit 5 applied: 5 items retained
-2026-09-09 00:17:22 INFO     usfeat.discovery: manifest: 5 images, 3 with at least one mask
-2026-09-09 00:17:22 INFO     usfeat.metadata: unsegmented metadata: 7 rows, 7 carried columns
-2026-09-09 00:17:22 INFO     usfeat.metadata: segmented metadata: 6 rows, 5 carried columns
-2026-09-09 00:17:22 INFO     usfeat.metadata: wrote metadata_unsegmented.parquet (7 rows)
-2026-09-09 00:17:22 INFO     usfeat.metadata: wrote metadata_segmented.parquet (6 rows)
-2026-09-09 00:17:22 INFO     usfeat.texlab: octave: /opt/homebrew/bin/octave-cli (GNU Octave (aarch64-apple-darwin25.4.0) version 11.3.0)
-2026-09-09 00:17:22 ERROR    usfeat.extractors: extractor texlab unavailable, skipping: FileNotFoundError: TexLab payload not found at /opt/usfeat/texlab/texlab.enc. Build it with tools/pack_texlab.py, or disable the extractor (--extractors without 'texlab').
-2026-09-09 00:17:23 INFO     usfeat.pyradiomics: pyradiomics image types: Exponential, Gradient, LBP2D, LoG, Logarithm, Original, Square, SquareRoot, Wavelet
-2026-09-09 00:17:23 INFO     usfeat.extractors: extractor ready: pyradiomics
-2026-09-09 00:17:28 INFO     usfeat.deep: dinov2: facebook/dinov2-base at 256px on cpu
-2026-09-09 00:17:28 INFO     usfeat.extractors: extractor ready: dinov2
-2026-09-09 00:17:28 INFO     usfeat.deep: dinov3: facebook/dinov3-vitb16-pretrain-lvd1689m at 224px on cpu
-2026-09-09 00:17:28 INFO     usfeat.extractors: extractor ready: dinov3
-2026-09-09 00:17:34 INFO     usfeat.deep: biomedclip: hf-hub:microsoft/BiomedCLIP-PubMedBERT_256-vit_base_patch16_224 at 224px on cpu
-2026-09-09 00:17:34 INFO     usfeat.extractors: extractor ready: biomedclip
-2026-09-09 00:17:35 INFO     usfeat.deep: siglip: google/siglip-base-patch16-224 at 224px on cpu
-2026-09-09 00:17:35 INFO     usfeat.extractors: extractor ready: siglip
-2026-09-09 00:17:35 INFO     usfeat.deep: imagenet: resnet50.a1_in1k at 224px (2048-d) on cpu
-2026-09-09 00:17:37 INFO     usfeat.deep: imagenet: vit_base_patch16_224.augreg_in21k_ft_in1k at 224px (768-d) on cpu
-2026-09-09 00:17:37 INFO     usfeat.extractors: extractor ready: imagenet
-2026-09-09 00:17:37 INFO     usfeat.pipeline: [1/5] grayscale/MMOTU-100-I0000006
-2026-09-09 00:17:44 DEBUG    usfeat.pipeline:   pyradiomics whole       1147 features in 6.58s
-2026-09-09 00:17:45 DEBUG    usfeat.pipeline:   dinov2      whole       1536 features in 1.19s
-2026-09-09 00:17:46 DEBUG    usfeat.pipeline:   dinov3      whole       1536 features in 0.68s
-2026-09-09 00:17:46 DEBUG    usfeat.pipeline:   biomedclip  whole       512 features in 0.37s
-2026-09-09 00:17:47 DEBUG    usfeat.pipeline:   siglip      whole       1536 features in 1.03s
-2026-09-09 00:17:48 DEBUG    usfeat.pipeline:   imagenet    whole       2816 features in 0.63s
-2026-09-09 00:17:48 INFO     usfeat.pipeline: [2/5] grayscale/MMOTU-1010-I0000002
-2026-09-09 00:17:51 DEBUG    usfeat.pipeline:   pyradiomics whole       1147 features in 3.17s
-2026-09-09 00:17:52 DEBUG    usfeat.pipeline:   dinov2      whole       1536 features in 0.56s
-2026-09-09 00:17:52 DEBUG    usfeat.pipeline:   dinov3      whole       1536 features in 0.39s
-2026-09-09 00:17:52 DEBUG    usfeat.pipeline:   biomedclip  whole       512 features in 0.35s
-2026-09-09 00:17:53 DEBUG    usfeat.pipeline:   siglip      whole       1536 features in 0.39s
-2026-09-09 00:17:53 DEBUG    usfeat.pipeline:   imagenet    whole       2816 features in 0.49s
-2026-09-09 00:17:53 INFO     usfeat.pipeline: [3/5] seg/0
-2026-09-09 00:18:00 DEBUG    usfeat.pipeline:   pyradiomics whole       1147 features in 6.40s
-2026-09-09 00:18:01 DEBUG    usfeat.pipeline:   dinov2      whole       1536 features in 0.58s
-2026-09-09 00:18:01 DEBUG    usfeat.pipeline:   dinov3      whole       1536 features in 0.40s
-2026-09-09 00:18:01 DEBUG    usfeat.pipeline:   biomedclip  whole       512 features in 0.35s
-2026-09-09 00:18:02 DEBUG    usfeat.pipeline:   siglip      whole       1536 features in 0.41s
-2026-09-09 00:18:02 DEBUG    usfeat.pipeline:   imagenet    whole       2816 features in 0.60s
-2026-09-09 00:18:03 DEBUG    usfeat.pipeline:   pyradiomics lesion      1147 features in 0.63s
-2026-09-09 00:18:04 DEBUG    usfeat.pipeline:   dinov2      lesion      1536 features in 0.54s
-2026-09-09 00:18:04 DEBUG    usfeat.pipeline:   dinov3      lesion      1536 features in 0.39s
-2026-09-09 00:18:04 DEBUG    usfeat.pipeline:   biomedclip  lesion      512 features in 0.36s
-2026-09-09 00:18:05 DEBUG    usfeat.pipeline:   siglip      lesion      1536 features in 0.38s
-2026-09-09 00:18:05 DEBUG    usfeat.pipeline:   imagenet    lesion      2816 features in 0.48s
-2026-09-09 00:18:06 DEBUG    usfeat.pipeline:   pyradiomics locule      1147 features in 0.38s
-2026-09-09 00:18:06 DEBUG    usfeat.pipeline:   dinov2      locule      1536 features in 0.55s
-2026-09-09 00:18:07 DEBUG    usfeat.pipeline:   dinov3      locule      1536 features in 0.42s
-2026-09-09 00:18:07 DEBUG    usfeat.pipeline:   biomedclip  locule      512 features in 0.34s
-2026-09-09 00:18:07 DEBUG    usfeat.pipeline:   siglip      locule      1536 features in 0.38s
-2026-09-09 00:18:08 DEBUG    usfeat.pipeline:   imagenet    locule      2816 features in 0.49s
-2026-09-09 00:18:08 DEBUG    usfeat.pipeline:   pyradiomics projection  1147 features in 0.34s
-2026-09-09 00:18:09 DEBUG    usfeat.pipeline:   dinov2      projection  1536 features in 0.56s
-2026-09-09 00:18:09 DEBUG    usfeat.pipeline:   dinov3      projection  1536 features in 0.40s
-2026-09-09 00:18:09 DEBUG    usfeat.pipeline:   biomedclip  projection  512 features in 0.35s
-2026-09-09 00:18:10 DEBUG    usfeat.pipeline:   siglip      projection  1536 features in 0.42s
-2026-09-09 00:18:10 DEBUG    usfeat.pipeline:   imagenet    projection  2816 features in 0.53s
-2026-09-09 00:18:11 DEBUG    usfeat.pipeline:   pyradiomics solid       1147 features in 0.67s
-2026-09-09 00:18:12 DEBUG    usfeat.pipeline:   dinov2      solid       1536 features in 0.74s
-2026-09-09 00:18:12 DEBUG    usfeat.pipeline:   dinov3      solid       1536 features in 0.38s
-2026-09-09 00:18:13 DEBUG    usfeat.pipeline:   biomedclip  solid       512 features in 0.36s
-2026-09-09 00:18:13 DEBUG    usfeat.pipeline:   siglip      solid       1536 features in 0.39s
-2026-09-09 00:18:13 DEBUG    usfeat.pipeline:   imagenet    solid       2816 features in 0.49s
-2026-09-09 00:18:13 INFO     usfeat.pipeline: [4/5] seg/1
-2026-09-09 00:18:17 DEBUG    usfeat.pipeline:   pyradiomics whole       1147 features in 3.32s
-2026-09-09 00:18:17 DEBUG    usfeat.pipeline:   dinov2      whole       1536 features in 0.62s
-2026-09-09 00:18:18 DEBUG    usfeat.pipeline:   dinov3      whole       1536 features in 0.40s
-2026-09-09 00:18:18 DEBUG    usfeat.pipeline:   biomedclip  whole       512 features in 0.37s
-2026-09-09 00:18:19 DEBUG    usfeat.pipeline:   siglip      whole       1536 features in 0.42s
-2026-09-09 00:18:19 DEBUG    usfeat.pipeline:   imagenet    whole       2816 features in 0.53s
-2026-09-09 00:18:20 DEBUG    usfeat.pipeline:   pyradiomics lesion      1147 features in 0.65s
-2026-09-09 00:18:20 DEBUG    usfeat.pipeline:   dinov2      lesion      1536 features in 0.65s
-2026-09-09 00:18:21 DEBUG    usfeat.pipeline:   dinov3      lesion      1536 features in 0.40s
-2026-09-09 00:18:21 DEBUG    usfeat.pipeline:   biomedclip  lesion      512 features in 0.35s
-2026-09-09 00:18:22 DEBUG    usfeat.pipeline:   siglip      lesion      1536 features in 0.39s
-2026-09-09 00:18:22 DEBUG    usfeat.pipeline:   imagenet    lesion      2816 features in 0.54s
-2026-09-09 00:18:22 DEBUG    usfeat.pipeline:   pyradiomics locule      1147 features in 0.34s
-2026-09-09 00:18:23 DEBUG    usfeat.pipeline:   dinov2      locule      1536 features in 0.67s
-2026-09-09 00:18:24 DEBUG    usfeat.pipeline:   dinov3      locule      1536 features in 1.03s
-2026-09-09 00:18:25 DEBUG    usfeat.pipeline:   biomedclip  locule      512 features in 1.26s
-2026-09-09 00:18:27 DEBUG    usfeat.pipeline:   siglip      locule      1536 features in 1.30s
-2026-09-09 00:18:28 DEBUG    usfeat.pipeline:   imagenet    locule      2816 features in 1.65s
-2026-09-09 00:18:29 DEBUG    usfeat.pipeline:   pyradiomics projection  1147 features in 0.27s
-2026-09-09 00:18:29 DEBUG    usfeat.pipeline:   dinov2      projection  1536 features in 0.77s
-2026-09-09 00:18:30 DEBUG    usfeat.pipeline:   dinov3      projection  1536 features in 0.42s
-2026-09-09 00:18:30 DEBUG    usfeat.pipeline:   biomedclip  projection  512 features in 0.39s
-2026-09-09 00:18:31 DEBUG    usfeat.pipeline:   siglip      projection  1536 features in 0.41s
-2026-09-09 00:18:31 DEBUG    usfeat.pipeline:   imagenet    projection  2816 features in 0.70s
-2026-09-09 00:18:32 DEBUG    usfeat.pipeline:   pyradiomics solid       1147 features in 0.57s
-2026-09-09 00:18:34 DEBUG    usfeat.pipeline:   dinov2      solid       1536 features in 1.91s
-2026-09-09 00:18:34 DEBUG    usfeat.pipeline:   dinov3      solid       1536 features in 0.48s
-2026-09-09 00:18:35 DEBUG    usfeat.pipeline:   biomedclip  solid       512 features in 0.55s
-2026-09-09 00:18:35 DEBUG    usfeat.pipeline:   siglip      solid       1536 features in 0.47s
-2026-09-09 00:18:36 DEBUG    usfeat.pipeline:   imagenet    solid       2816 features in 0.61s
-2026-09-09 00:18:36 INFO     usfeat.pipeline: [5/5] seg/2
-2026-09-09 00:18:44 DEBUG    usfeat.pipeline:   pyradiomics whole       1147 features in 7.69s
-2026-09-09 00:18:45 DEBUG    usfeat.pipeline:   dinov2      whole       1536 features in 1.41s
-2026-09-09 00:18:46 DEBUG    usfeat.pipeline:   dinov3      whole       1536 features in 1.05s
-2026-09-09 00:18:47 DEBUG    usfeat.pipeline:   biomedclip  whole       512 features in 0.56s
-2026-09-09 00:18:48 DEBUG    usfeat.pipeline:   siglip      whole       1536 features in 1.20s
-2026-09-09 00:18:49 DEBUG    usfeat.pipeline:   imagenet    whole       2816 features in 0.81s
-2026-09-09 00:18:50 DEBUG    usfeat.pipeline:   pyradiomics lesion      1147 features in 1.37s
-2026-09-09 00:18:51 DEBUG    usfeat.pipeline:   dinov2      lesion      1536 features in 0.64s
-2026-09-09 00:18:51 DEBUG    usfeat.pipeline:   dinov3      lesion      1536 features in 0.45s
-2026-09-09 00:18:51 DEBUG    usfeat.pipeline:   biomedclip  lesion      512 features in 0.38s
-2026-09-09 00:18:52 DEBUG    usfeat.pipeline:   siglip      lesion      1536 features in 0.43s
-2026-09-09 00:18:52 DEBUG    usfeat.pipeline:   imagenet    lesion      2816 features in 0.55s
-2026-09-09 00:18:53 DEBUG    usfeat.pipeline:   pyradiomics locule      1147 features in 0.61s
-2026-09-09 00:18:54 DEBUG    usfeat.pipeline:   dinov2      locule      1536 features in 0.61s
-2026-09-09 00:18:54 DEBUG    usfeat.pipeline:   dinov3      locule      1536 features in 0.43s
-2026-09-09 00:18:54 DEBUG    usfeat.pipeline:   biomedclip  locule      512 features in 0.40s
-2026-09-09 00:18:55 DEBUG    usfeat.pipeline:   siglip      locule      1536 features in 0.44s
-2026-09-09 00:18:55 DEBUG    usfeat.pipeline:   imagenet    locule      2816 features in 0.57s
-2026-09-09 00:18:56 DEBUG    usfeat.pipeline:   pyradiomics projection  1147 features in 0.42s
-2026-09-09 00:18:57 DEBUG    usfeat.pipeline:   dinov2      projection  1536 features in 0.60s
-2026-09-09 00:18:57 DEBUG    usfeat.pipeline:   dinov3      projection  1536 features in 0.41s
-2026-09-09 00:18:57 DEBUG    usfeat.pipeline:   biomedclip  projection  512 features in 0.44s
-2026-09-09 00:18:58 DEBUG    usfeat.pipeline:   siglip      projection  1536 features in 0.41s
-2026-09-09 00:18:58 DEBUG    usfeat.pipeline:   imagenet    projection  2816 features in 0.54s
-2026-09-09 00:18:59 DEBUG    usfeat.pipeline:   pyradiomics solid       1147 features in 1.10s
-2026-09-09 00:19:00 DEBUG    usfeat.pipeline:   dinov2      solid       1536 features in 0.57s
-2026-09-09 00:19:00 DEBUG    usfeat.pipeline:   dinov3      solid       1536 features in 0.41s
-2026-09-09 00:19:01 DEBUG    usfeat.pipeline:   biomedclip  solid       512 features in 0.38s
-2026-09-09 00:19:01 DEBUG    usfeat.pipeline:   siglip      solid       1536 features in 0.41s
-2026-09-09 00:19:02 DEBUG    usfeat.pipeline:   imagenet    solid       2816 features in 0.53s
-2026-09-09 00:19:02 DEBUG    usfeat.writer: flushed 5 rows to part-00000.parquet
-2026-09-09 00:19:03 INFO     usfeat.writer: wrote pyradiomics__whole.parquet: 5 rows x 1147 features
-2026-09-09 00:19:03 DEBUG    usfeat.writer: flushed 5 rows to part-00000.parquet
-2026-09-09 00:19:03 INFO     usfeat.writer: wrote dinov2__whole.parquet: 5 rows x 1536 features
-2026-09-09 00:19:03 DEBUG    usfeat.writer: flushed 5 rows to part-00000.parquet
-2026-09-09 00:19:04 INFO     usfeat.writer: wrote dinov3__whole.parquet: 5 rows x 1536 features
-2026-09-09 00:19:04 DEBUG    usfeat.writer: flushed 5 rows to part-00000.parquet
-2026-09-09 00:19:04 INFO     usfeat.writer: wrote biomedclip__whole.parquet: 5 rows x 512 features
-2026-09-09 00:19:04 DEBUG    usfeat.writer: flushed 5 rows to part-00000.parquet
-2026-09-09 00:19:05 INFO     usfeat.writer: wrote siglip__whole.parquet: 5 rows x 1536 features
-2026-09-09 00:19:05 DEBUG    usfeat.writer: flushed 5 rows to part-00000.parquet
-2026-09-09 00:19:06 INFO     usfeat.writer: wrote imagenet__whole.parquet: 5 rows x 2816 features
-2026-09-09 00:19:06 DEBUG    usfeat.writer: flushed 3 rows to part-00000.parquet
-2026-09-09 00:19:06 INFO     usfeat.writer: wrote pyradiomics__lesion.parquet: 3 rows x 1147 features
-2026-09-09 00:19:07 DEBUG    usfeat.writer: flushed 3 rows to part-00000.parquet
-2026-09-09 00:19:07 INFO     usfeat.writer: wrote dinov2__lesion.parquet: 3 rows x 1536 features
-2026-09-09 00:19:07 DEBUG    usfeat.writer: flushed 3 rows to part-00000.parquet
-2026-09-09 00:19:08 INFO     usfeat.writer: wrote dinov3__lesion.parquet: 3 rows x 1536 features
-2026-09-09 00:19:08 DEBUG    usfeat.writer: flushed 3 rows to part-00000.parquet
-2026-09-09 00:19:08 INFO     usfeat.writer: wrote biomedclip__lesion.parquet: 3 rows x 512 features
-2026-09-09 00:19:08 DEBUG    usfeat.writer: flushed 3 rows to part-00000.parquet
-2026-09-09 00:19:08 INFO     usfeat.writer: wrote siglip__lesion.parquet: 3 rows x 1536 features
-2026-09-09 00:19:09 DEBUG    usfeat.writer: flushed 3 rows to part-00000.parquet
-2026-09-09 00:19:09 INFO     usfeat.writer: wrote imagenet__lesion.parquet: 3 rows x 2816 features
-2026-09-09 00:19:09 DEBUG    usfeat.writer: flushed 3 rows to part-00000.parquet
-2026-09-09 00:19:10 INFO     usfeat.writer: wrote pyradiomics__locule.parquet: 3 rows x 1147 features
-2026-09-09 00:19:10 DEBUG    usfeat.writer: flushed 3 rows to part-00000.parquet
-2026-09-09 00:19:10 INFO     usfeat.writer: wrote dinov2__locule.parquet: 3 rows x 1536 features
-2026-09-09 00:19:11 DEBUG    usfeat.writer: flushed 3 rows to part-00000.parquet
-2026-09-09 00:19:11 INFO     usfeat.writer: wrote dinov3__locule.parquet: 3 rows x 1536 features
-2026-09-09 00:19:11 DEBUG    usfeat.writer: flushed 3 rows to part-00000.parquet
-2026-09-09 00:19:11 INFO     usfeat.writer: wrote biomedclip__locule.parquet: 3 rows x 512 features
-2026-09-09 00:19:12 DEBUG    usfeat.writer: flushed 3 rows to part-00000.parquet
-2026-09-09 00:19:12 INFO     usfeat.writer: wrote siglip__locule.parquet: 3 rows x 1536 features
-2026-09-09 00:19:12 DEBUG    usfeat.writer: flushed 3 rows to part-00000.parquet
-2026-09-09 00:19:13 INFO     usfeat.writer: wrote imagenet__locule.parquet: 3 rows x 2816 features
-2026-09-09 00:19:13 DEBUG    usfeat.writer: flushed 3 rows to part-00000.parquet
-2026-09-09 00:19:13 INFO     usfeat.writer: wrote pyradiomics__projection.parquet: 3 rows x 1147 features
-2026-09-09 00:19:14 DEBUG    usfeat.writer: flushed 3 rows to part-00000.parquet
-2026-09-09 00:19:14 INFO     usfeat.writer: wrote dinov2__projection.parquet: 3 rows x 1536 features
-2026-09-09 00:19:14 DEBUG    usfeat.writer: flushed 3 rows to part-00000.parquet
-2026-09-09 00:19:15 INFO     usfeat.writer: wrote dinov3__projection.parquet: 3 rows x 1536 features
-2026-09-09 00:19:15 DEBUG    usfeat.writer: flushed 3 rows to part-00000.parquet
-2026-09-09 00:19:15 INFO     usfeat.writer: wrote biomedclip__projection.parquet: 3 rows x 512 features
-2026-09-09 00:19:15 DEBUG    usfeat.writer: flushed 3 rows to part-00000.parquet
-2026-09-09 00:19:15 INFO     usfeat.writer: wrote siglip__projection.parquet: 3 rows x 1536 features
-2026-09-09 00:19:16 DEBUG    usfeat.writer: flushed 3 rows to part-00000.parquet
-2026-09-09 00:19:16 INFO     usfeat.writer: wrote imagenet__projection.parquet: 3 rows x 2816 features
-2026-09-09 00:19:17 DEBUG    usfeat.writer: flushed 3 rows to part-00000.parquet
-2026-09-09 00:19:17 INFO     usfeat.writer: wrote pyradiomics__solid.parquet: 3 rows x 1147 features
-2026-09-09 00:19:17 DEBUG    usfeat.writer: flushed 3 rows to part-00000.parquet
-2026-09-09 00:19:17 INFO     usfeat.writer: wrote dinov2__solid.parquet: 3 rows x 1536 features
-2026-09-09 00:19:18 DEBUG    usfeat.writer: flushed 3 rows to part-00000.parquet
-2026-09-09 00:19:18 INFO     usfeat.writer: wrote dinov3__solid.parquet: 3 rows x 1536 features
-2026-09-09 00:19:18 DEBUG    usfeat.writer: flushed 3 rows to part-00000.parquet
-2026-09-09 00:19:18 INFO     usfeat.writer: wrote biomedclip__solid.parquet: 3 rows x 512 features
-2026-09-09 00:19:18 DEBUG    usfeat.writer: flushed 3 rows to part-00000.parquet
-2026-09-09 00:19:19 INFO     usfeat.writer: wrote siglip__solid.parquet: 3 rows x 1536 features
-2026-09-09 00:19:19 DEBUG    usfeat.writer: flushed 3 rows to part-00000.parquet
-2026-09-09 00:19:20 INFO     usfeat.writer: wrote imagenet__solid.parquet: 3 rows x 2816 features
-2026-09-09 00:19:20 INFO     usfeat.pipeline: ====================================================================
-2026-09-09 00:19:20 INFO     usfeat.pipeline: finished in 1m57s
-2026-09-09 00:19:20 INFO     usfeat.pipeline: images: 5 found, 5 processed, 0 failed to load
-2026-09-09 00:19:20 INFO     usfeat.pipeline:   pyradiomics      17 rows     0 failed     0 skipped
-2026-09-09 00:19:20 INFO     usfeat.pipeline:   dinov2           17 rows     0 failed     0 skipped
-2026-09-09 00:19:20 INFO     usfeat.pipeline:   dinov3           17 rows     0 failed     0 skipped
-2026-09-09 00:19:20 INFO     usfeat.pipeline:   biomedclip       17 rows     0 failed     0 skipped
-2026-09-09 00:19:20 INFO     usfeat.pipeline:   siglip           17 rows     0 failed     0 skipped
-2026-09-09 00:19:20 INFO     usfeat.pipeline:   imagenet         17 rows     0 failed     0 skipped
-2026-09-09 00:19:20 WARNING  usfeat.pipeline: extractors that could not start: texlab
-2026-09-09 00:19:20 INFO     usfeat.pipeline: 30 feature tables written to /Users/kl2418/ovarian-us-feature-extraction/examples/output/features
-2026-09-09 00:19:20 INFO     usfeat.pipeline: no errors logged
-2026-09-09 00:19:20 INFO     usfeat.pipeline: summary: /Users/kl2418/ovarian-us-feature-extraction/examples/output/logs/summary.json
-2026-09-09 00:19:20 INFO     usfeat.pipeline: ====================================================================
+2026-09-11 14:51:00 INFO     usfeat.pipeline: usfeat 0.1.0 | data_root=sample_data | output=examples/output
+2026-09-11 14:51:00 INFO     usfeat.pipeline: extractors requested: pyradiomics, dinov2, dinov3, biomedclip, siglip, imagenet
+2026-09-11 14:51:00 INFO     usfeat.discovery: found 7 grayscale and 3 doppler images under sample_data
+2026-09-11 14:51:00 INFO     usfeat.discovery: 3 acquisitions have both a Doppler and a Doppler-removed image
+2026-09-11 14:51:00 INFO     usfeat.discovery: found 6 segmented images under sample_data/images_seg
+2026-09-11 14:51:00 INFO     usfeat.discovery:   ROI lesion      6 masks
+2026-09-11 14:51:00 INFO     usfeat.discovery:   ROI locule      6 masks
+2026-09-11 14:51:00 INFO     usfeat.discovery:   ROI projection  6 masks
+2026-09-11 14:51:00 INFO     usfeat.discovery:   ROI solid       6 masks
+2026-09-11 14:51:00 INFO     usfeat.discovery: --limit 5 applied: 5 items retained
+2026-09-11 14:51:00 INFO     usfeat.discovery: manifest: 5 images, 3 with at least one mask
+2026-09-11 14:51:00 INFO     usfeat.metadata: unsegmented metadata: 7 rows, 7 carried columns
+2026-09-11 14:51:00 INFO     usfeat.metadata: segmented metadata: 6 rows, 5 carried columns
+2026-09-11 14:51:00 INFO     usfeat.metadata: wrote metadata_unsegmented.parquet (7 rows)
+2026-09-11 14:51:00 INFO     usfeat.metadata: wrote metadata_segmented.parquet (6 rows)
+2026-09-11 14:51:33 INFO     usfeat.pyradiomics: pyradiomics image types: Exponential, Gradient, LBP2D, LoG, Logarithm, Original, Square, SquareRoot, Wavelet
+2026-09-11 14:51:33 INFO     usfeat.extractors: extractor ready: pyradiomics
+2026-09-11 14:53:25 INFO     usfeat.deep: dinov2: facebook/dinov2-base at 256px on cpu
+2026-09-11 14:53:25 INFO     usfeat.extractors: extractor ready: dinov2
+2026-09-11 14:53:28 INFO     usfeat.deep: dinov3: facebook/dinov3-vitb16-pretrain-lvd1689m at 224px on cpu
+2026-09-11 14:53:28 INFO     usfeat.extractors: extractor ready: dinov3
+2026-09-11 14:53:39 INFO     usfeat.deep: biomedclip: hf-hub:microsoft/BiomedCLIP-PubMedBERT_256-vit_base_patch16_224 at 224px on cpu
+2026-09-11 14:53:39 INFO     usfeat.extractors: extractor ready: biomedclip
+2026-09-11 14:54:05 INFO     usfeat.deep: siglip: google/siglip-base-patch16-224 at 224px on cpu
+2026-09-11 14:54:05 INFO     usfeat.extractors: extractor ready: siglip
+2026-09-11 14:54:06 INFO     usfeat.deep: imagenet: resnet50.a1_in1k at 224px (2048-d) on cpu
+2026-09-11 14:54:09 INFO     usfeat.deep: imagenet: vit_base_patch16_224.augreg_in21k_ft_in1k at 224px (768-d) on cpu
+2026-09-11 14:54:09 INFO     usfeat.extractors: extractor ready: imagenet
+2026-09-11 14:54:09 INFO     usfeat.pipeline: [1/5] grayscale/MMOTU-100-I0000006
+2026-09-11 14:54:19 DEBUG    usfeat.pipeline:   pyradiomics whole       1147 features in 10.31s
+2026-09-11 14:54:21 DEBUG    usfeat.pipeline:   dinov2      whole       1536 features in 1.27s
+2026-09-11 14:54:22 DEBUG    usfeat.pipeline:   dinov3      whole       1536 features in 1.07s
+2026-09-11 14:54:22 DEBUG    usfeat.pipeline:   biomedclip  whole       512 features in 0.51s
+2026-09-11 14:54:23 DEBUG    usfeat.pipeline:   siglip      whole       1536 features in 1.02s
+2026-09-11 14:54:24 DEBUG    usfeat.pipeline:   imagenet    whole       2816 features in 0.90s
+2026-09-11 14:54:24 INFO     usfeat.pipeline: [2/5] grayscale/MMOTU-1010-I0000002
+2026-09-11 14:54:27 DEBUG    usfeat.pipeline:   pyradiomics whole       1147 features in 3.31s
+2026-09-11 14:54:28 DEBUG    usfeat.pipeline:   dinov2      whole       1536 features in 0.55s
+2026-09-11 14:54:28 DEBUG    usfeat.pipeline:   dinov3      whole       1536 features in 0.39s
+2026-09-11 14:54:29 DEBUG    usfeat.pipeline:   biomedclip  whole       512 features in 0.33s
+2026-09-11 14:54:29 DEBUG    usfeat.pipeline:   siglip      whole       1536 features in 0.37s
+2026-09-11 14:54:30 DEBUG    usfeat.pipeline:   imagenet    whole       2816 features in 0.49s
+2026-09-11 14:54:30 INFO     usfeat.pipeline: [3/5] seg/0
+2026-09-11 14:54:37 DEBUG    usfeat.pipeline:   pyradiomics whole       1147 features in 6.64s
+2026-09-11 14:54:37 DEBUG    usfeat.pipeline:   dinov2      whole       1536 features in 0.59s
+2026-09-11 14:54:38 DEBUG    usfeat.pipeline:   dinov3      whole       1536 features in 0.37s
+2026-09-11 14:54:38 DEBUG    usfeat.pipeline:   biomedclip  whole       512 features in 0.57s
+2026-09-11 14:54:39 DEBUG    usfeat.pipeline:   siglip      whole       1536 features in 0.39s
+2026-09-11 14:54:39 DEBUG    usfeat.pipeline:   imagenet    whole       2816 features in 0.75s
+2026-09-11 14:54:40 DEBUG    usfeat.pipeline:   pyradiomics lesion      1147 features in 0.66s
+2026-09-11 14:54:40 DEBUG    usfeat.pipeline:   dinov2      lesion      1536 features in 0.54s
+2026-09-11 14:54:41 DEBUG    usfeat.pipeline:   dinov3      lesion      1536 features in 0.39s
+2026-09-11 14:54:41 DEBUG    usfeat.pipeline:   biomedclip  lesion      512 features in 0.40s
+2026-09-11 14:54:42 DEBUG    usfeat.pipeline:   siglip      lesion      1536 features in 0.41s
+2026-09-11 14:54:42 DEBUG    usfeat.pipeline:   imagenet    lesion      2816 features in 0.48s
+2026-09-11 14:54:43 DEBUG    usfeat.pipeline:   pyradiomics locule      1147 features in 0.38s
+2026-09-11 14:54:43 DEBUG    usfeat.pipeline:   dinov2      locule      1536 features in 0.55s
+2026-09-11 14:54:43 DEBUG    usfeat.pipeline:   dinov3      locule      1536 features in 0.40s
+2026-09-11 14:54:44 DEBUG    usfeat.pipeline:   biomedclip  locule      512 features in 0.34s
+2026-09-11 14:54:44 DEBUG    usfeat.pipeline:   siglip      locule      1536 features in 0.39s
+2026-09-11 14:54:45 DEBUG    usfeat.pipeline:   imagenet    locule      2816 features in 0.46s
+2026-09-11 14:54:45 DEBUG    usfeat.pipeline:   pyradiomics projection  1147 features in 0.34s
+2026-09-11 14:54:46 DEBUG    usfeat.pipeline:   dinov2      projection  1536 features in 0.56s
+2026-09-11 14:54:46 DEBUG    usfeat.pipeline:   dinov3      projection  1536 features in 0.36s
+2026-09-11 14:54:46 DEBUG    usfeat.pipeline:   biomedclip  projection  512 features in 0.34s
+2026-09-11 14:54:47 DEBUG    usfeat.pipeline:   siglip      projection  1536 features in 0.43s
+2026-09-11 14:54:47 DEBUG    usfeat.pipeline:   imagenet    projection  2816 features in 0.49s
+2026-09-11 14:54:48 DEBUG    usfeat.pipeline:   pyradiomics solid       1147 features in 0.57s
+2026-09-11 14:54:48 DEBUG    usfeat.pipeline:   dinov2      solid       1536 features in 0.53s
+2026-09-11 14:54:49 DEBUG    usfeat.pipeline:   dinov3      solid       1536 features in 0.38s
+2026-09-11 14:54:49 DEBUG    usfeat.pipeline:   biomedclip  solid       512 features in 0.35s
+2026-09-11 14:54:49 DEBUG    usfeat.pipeline:   siglip      solid       1536 features in 0.36s
+2026-09-11 14:54:50 DEBUG    usfeat.pipeline:   imagenet    solid       2816 features in 0.48s
+2026-09-11 14:54:50 INFO     usfeat.pipeline: [4/5] seg/1
+2026-09-11 14:54:53 DEBUG    usfeat.pipeline:   pyradiomics whole       1147 features in 3.40s
+2026-09-11 14:54:54 DEBUG    usfeat.pipeline:   dinov2      whole       1536 features in 0.55s
+2026-09-11 14:54:56 DEBUG    usfeat.pipeline:   dinov3      whole       1536 features in 1.94s
+2026-09-11 14:54:56 DEBUG    usfeat.pipeline:   biomedclip  whole       512 features in 0.37s
+2026-09-11 14:54:57 DEBUG    usfeat.pipeline:   siglip      whole       1536 features in 0.38s
+2026-09-11 14:54:57 DEBUG    usfeat.pipeline:   imagenet    whole       2816 features in 0.50s
+2026-09-11 14:54:58 DEBUG    usfeat.pipeline:   pyradiomics lesion      1147 features in 0.65s
+2026-09-11 14:54:58 DEBUG    usfeat.pipeline:   dinov2      lesion      1536 features in 0.53s
+2026-09-11 14:54:59 DEBUG    usfeat.pipeline:   dinov3      lesion      1536 features in 0.41s
+2026-09-11 14:54:59 DEBUG    usfeat.pipeline:   biomedclip  lesion      512 features in 0.33s
+2026-09-11 14:54:59 DEBUG    usfeat.pipeline:   siglip      lesion      1536 features in 0.40s
+2026-09-11 14:55:00 DEBUG    usfeat.pipeline:   imagenet    lesion      2816 features in 0.47s
+2026-09-11 14:55:00 DEBUG    usfeat.pipeline:   pyradiomics locule      1147 features in 0.33s
+2026-09-11 14:55:01 DEBUG    usfeat.pipeline:   dinov2      locule      1536 features in 0.56s
+2026-09-11 14:55:01 DEBUG    usfeat.pipeline:   dinov3      locule      1536 features in 0.38s
+2026-09-11 14:55:01 DEBUG    usfeat.pipeline:   biomedclip  locule      512 features in 0.35s
+2026-09-11 14:55:02 DEBUG    usfeat.pipeline:   siglip      locule      1536 features in 0.40s
+2026-09-11 14:55:02 DEBUG    usfeat.pipeline:   imagenet    locule      2816 features in 0.46s
+2026-09-11 14:55:03 DEBUG    usfeat.pipeline:   pyradiomics projection  1147 features in 0.26s
+2026-09-11 14:55:03 DEBUG    usfeat.pipeline:   dinov2      projection  1536 features in 0.55s
+2026-09-11 14:55:04 DEBUG    usfeat.pipeline:   dinov3      projection  1536 features in 0.38s
+2026-09-11 14:55:04 DEBUG    usfeat.pipeline:   biomedclip  projection  512 features in 0.35s
+2026-09-11 14:55:04 DEBUG    usfeat.pipeline:   siglip      projection  1536 features in 0.41s
+2026-09-11 14:55:05 DEBUG    usfeat.pipeline:   imagenet    projection  2816 features in 0.46s
+2026-09-11 14:55:05 DEBUG    usfeat.pipeline:   pyradiomics solid       1147 features in 0.54s
+2026-09-11 14:55:06 DEBUG    usfeat.pipeline:   dinov2      solid       1536 features in 0.54s
+2026-09-11 14:55:06 DEBUG    usfeat.pipeline:   dinov3      solid       1536 features in 0.36s
+2026-09-11 14:55:07 DEBUG    usfeat.pipeline:   biomedclip  solid       512 features in 0.34s
+2026-09-11 14:55:07 DEBUG    usfeat.pipeline:   siglip      solid       1536 features in 0.40s
+2026-09-11 14:55:07 DEBUG    usfeat.pipeline:   imagenet    solid       2816 features in 0.46s
+2026-09-11 14:55:07 INFO     usfeat.pipeline: [5/5] seg/2
+2026-09-11 14:55:14 DEBUG    usfeat.pipeline:   pyradiomics whole       1147 features in 6.28s
+2026-09-11 14:55:14 DEBUG    usfeat.pipeline:   dinov2      whole       1536 features in 0.53s
+2026-09-11 14:55:15 DEBUG    usfeat.pipeline:   dinov3      whole       1536 features in 0.38s
+2026-09-11 14:55:15 DEBUG    usfeat.pipeline:   biomedclip  whole       512 features in 0.34s
+2026-09-11 14:55:15 DEBUG    usfeat.pipeline:   siglip      whole       1536 features in 0.37s
+2026-09-11 14:55:16 DEBUG    usfeat.pipeline:   imagenet    whole       2816 features in 0.50s
+2026-09-11 14:55:17 DEBUG    usfeat.pipeline:   pyradiomics lesion      1147 features in 1.21s
+2026-09-11 14:55:18 DEBUG    usfeat.pipeline:   dinov2      lesion      1536 features in 0.54s
+2026-09-11 14:55:18 DEBUG    usfeat.pipeline:   dinov3      lesion      1536 features in 0.37s
+2026-09-11 14:55:18 DEBUG    usfeat.pipeline:   biomedclip  lesion      512 features in 0.34s
+2026-09-11 14:55:19 DEBUG    usfeat.pipeline:   siglip      lesion      1536 features in 0.38s
+2026-09-11 14:55:19 DEBUG    usfeat.pipeline:   imagenet    lesion      2816 features in 0.46s
+2026-09-11 14:55:20 DEBUG    usfeat.pipeline:   pyradiomics locule      1147 features in 0.55s
+2026-09-11 14:55:20 DEBUG    usfeat.pipeline:   dinov2      locule      1536 features in 0.53s
+2026-09-11 14:55:21 DEBUG    usfeat.pipeline:   dinov3      locule      1536 features in 0.36s
+2026-09-11 14:55:21 DEBUG    usfeat.pipeline:   biomedclip  locule      512 features in 0.35s
+2026-09-11 14:55:21 DEBUG    usfeat.pipeline:   siglip      locule      1536 features in 0.40s
+2026-09-11 14:55:22 DEBUG    usfeat.pipeline:   imagenet    locule      2816 features in 0.50s
+2026-09-11 14:55:22 DEBUG    usfeat.pipeline:   pyradiomics projection  1147 features in 0.39s
+2026-09-11 14:55:23 DEBUG    usfeat.pipeline:   dinov2      projection  1536 features in 0.57s
+2026-09-11 14:55:23 DEBUG    usfeat.pipeline:   dinov3      projection  1536 features in 0.40s
+2026-09-11 14:55:24 DEBUG    usfeat.pipeline:   biomedclip  projection  512 features in 0.37s
+2026-09-11 14:55:24 DEBUG    usfeat.pipeline:   siglip      projection  1536 features in 0.40s
+2026-09-11 14:55:24 DEBUG    usfeat.pipeline:   imagenet    projection  2816 features in 0.50s
+2026-09-11 14:55:26 DEBUG    usfeat.pipeline:   pyradiomics solid       1147 features in 1.08s
+2026-09-11 14:55:26 DEBUG    usfeat.pipeline:   dinov2      solid       1536 features in 0.55s
+2026-09-11 14:55:26 DEBUG    usfeat.pipeline:   dinov3      solid       1536 features in 0.37s
+2026-09-11 14:55:27 DEBUG    usfeat.pipeline:   biomedclip  solid       512 features in 0.33s
+2026-09-11 14:55:27 DEBUG    usfeat.pipeline:   siglip      solid       1536 features in 0.38s
+2026-09-11 14:55:28 DEBUG    usfeat.pipeline:   imagenet    solid       2816 features in 0.47s
+2026-09-11 14:55:28 DEBUG    usfeat.writer: flushed 5 rows to part-00000.parquet
+2026-09-11 14:55:28 INFO     usfeat.writer: wrote pyradiomics__whole.parquet: 5 rows x 1147 features
+2026-09-11 14:55:29 DEBUG    usfeat.writer: flushed 5 rows to part-00000.parquet
+2026-09-11 14:55:29 INFO     usfeat.writer: wrote dinov2__whole.parquet: 5 rows x 1536 features
+2026-09-11 14:55:29 DEBUG    usfeat.writer: flushed 5 rows to part-00000.parquet
+2026-09-11 14:55:30 INFO     usfeat.writer: wrote dinov3__whole.parquet: 5 rows x 1536 features
+2026-09-11 14:55:30 DEBUG    usfeat.writer: flushed 5 rows to part-00000.parquet
+2026-09-11 14:55:30 INFO     usfeat.writer: wrote biomedclip__whole.parquet: 5 rows x 512 features
+2026-09-11 14:55:30 DEBUG    usfeat.writer: flushed 5 rows to part-00000.parquet
+2026-09-11 14:55:30 INFO     usfeat.writer: wrote siglip__whole.parquet: 5 rows x 1536 features
+2026-09-11 14:55:31 DEBUG    usfeat.writer: flushed 5 rows to part-00000.parquet
+2026-09-11 14:55:31 INFO     usfeat.writer: wrote imagenet__whole.parquet: 5 rows x 2816 features
+2026-09-11 14:55:31 DEBUG    usfeat.writer: flushed 3 rows to part-00000.parquet
+2026-09-11 14:55:32 INFO     usfeat.writer: wrote pyradiomics__lesion.parquet: 3 rows x 1147 features
+2026-09-11 14:55:32 DEBUG    usfeat.writer: flushed 3 rows to part-00000.parquet
+2026-09-11 14:55:32 INFO     usfeat.writer: wrote dinov2__lesion.parquet: 3 rows x 1536 features
+2026-09-11 14:55:33 DEBUG    usfeat.writer: flushed 3 rows to part-00000.parquet
+2026-09-11 14:55:33 INFO     usfeat.writer: wrote dinov3__lesion.parquet: 3 rows x 1536 features
+2026-09-11 14:55:33 DEBUG    usfeat.writer: flushed 3 rows to part-00000.parquet
+2026-09-11 14:55:33 INFO     usfeat.writer: wrote biomedclip__lesion.parquet: 3 rows x 512 features
+2026-09-11 14:55:33 DEBUG    usfeat.writer: flushed 3 rows to part-00000.parquet
+2026-09-11 14:55:34 INFO     usfeat.writer: wrote siglip__lesion.parquet: 3 rows x 1536 features
+2026-09-11 14:55:34 DEBUG    usfeat.writer: flushed 3 rows to part-00000.parquet
+2026-09-11 14:55:35 INFO     usfeat.writer: wrote imagenet__lesion.parquet: 3 rows x 2816 features
+2026-09-11 14:55:35 DEBUG    usfeat.writer: flushed 3 rows to part-00000.parquet
+2026-09-11 14:55:35 INFO     usfeat.writer: wrote pyradiomics__locule.parquet: 3 rows x 1147 features
+2026-09-11 14:55:35 DEBUG    usfeat.writer: flushed 3 rows to part-00000.parquet
+2026-09-11 14:55:36 INFO     usfeat.writer: wrote dinov2__locule.parquet: 3 rows x 1536 features
+2026-09-11 14:55:36 DEBUG    usfeat.writer: flushed 3 rows to part-00000.parquet
+2026-09-11 14:55:36 INFO     usfeat.writer: wrote dinov3__locule.parquet: 3 rows x 1536 features
+2026-09-11 14:55:36 DEBUG    usfeat.writer: flushed 3 rows to part-00000.parquet
+2026-09-11 14:55:36 INFO     usfeat.writer: wrote biomedclip__locule.parquet: 3 rows x 512 features
+2026-09-11 14:55:37 DEBUG    usfeat.writer: flushed 3 rows to part-00000.parquet
+2026-09-11 14:55:37 INFO     usfeat.writer: wrote siglip__locule.parquet: 3 rows x 1536 features
+2026-09-11 14:55:37 DEBUG    usfeat.writer: flushed 3 rows to part-00000.parquet
+2026-09-11 14:55:38 INFO     usfeat.writer: wrote imagenet__locule.parquet: 3 rows x 2816 features
+2026-09-11 14:55:38 DEBUG    usfeat.writer: flushed 3 rows to part-00000.parquet
+2026-09-11 14:55:38 INFO     usfeat.writer: wrote pyradiomics__projection.parquet: 3 rows x 1147 features
+2026-09-11 14:55:39 DEBUG    usfeat.writer: flushed 3 rows to part-00000.parquet
+2026-09-11 14:55:39 INFO     usfeat.writer: wrote dinov2__projection.parquet: 3 rows x 1536 features
+2026-09-11 14:55:39 DEBUG    usfeat.writer: flushed 3 rows to part-00000.parquet
+2026-09-11 14:55:40 INFO     usfeat.writer: wrote dinov3__projection.parquet: 3 rows x 1536 features
+2026-09-11 14:55:40 DEBUG    usfeat.writer: flushed 3 rows to part-00000.parquet
+2026-09-11 14:55:40 INFO     usfeat.writer: wrote biomedclip__projection.parquet: 3 rows x 512 features
+2026-09-11 14:55:40 DEBUG    usfeat.writer: flushed 3 rows to part-00000.parquet
+2026-09-11 14:55:40 INFO     usfeat.writer: wrote siglip__projection.parquet: 3 rows x 1536 features
+2026-09-11 14:55:41 DEBUG    usfeat.writer: flushed 3 rows to part-00000.parquet
+2026-09-11 14:55:41 INFO     usfeat.writer: wrote imagenet__projection.parquet: 3 rows x 2816 features
+2026-09-11 14:55:41 DEBUG    usfeat.writer: flushed 3 rows to part-00000.parquet
+2026-09-11 14:55:42 INFO     usfeat.writer: wrote pyradiomics__solid.parquet: 3 rows x 1147 features
+2026-09-11 14:55:42 DEBUG    usfeat.writer: flushed 3 rows to part-00000.parquet
+2026-09-11 14:55:42 INFO     usfeat.writer: wrote dinov2__solid.parquet: 3 rows x 1536 features
+2026-09-11 14:55:42 DEBUG    usfeat.writer: flushed 3 rows to part-00000.parquet
+2026-09-11 14:55:43 INFO     usfeat.writer: wrote dinov3__solid.parquet: 3 rows x 1536 features
+2026-09-11 14:55:43 DEBUG    usfeat.writer: flushed 3 rows to part-00000.parquet
+2026-09-11 14:55:43 INFO     usfeat.writer: wrote biomedclip__solid.parquet: 3 rows x 512 features
+2026-09-11 14:55:43 DEBUG    usfeat.writer: flushed 3 rows to part-00000.parquet
+2026-09-11 14:55:44 INFO     usfeat.writer: wrote siglip__solid.parquet: 3 rows x 1536 features
+2026-09-11 14:55:44 DEBUG    usfeat.writer: flushed 3 rows to part-00000.parquet
+2026-09-11 14:55:45 INFO     usfeat.writer: wrote imagenet__solid.parquet: 3 rows x 2816 features
+2026-09-11 14:55:45 INFO     usfeat.pipeline: ====================================================================
+2026-09-11 14:55:45 INFO     usfeat.pipeline: finished in 4m44s
+2026-09-11 14:55:45 INFO     usfeat.pipeline: images: 5 found, 5 processed, 0 failed to load
+2026-09-11 14:55:45 INFO     usfeat.pipeline:   pyradiomics      17 rows     0 failed     0 skipped
+2026-09-11 14:55:45 INFO     usfeat.pipeline:   dinov2           17 rows     0 failed     0 skipped
+2026-09-11 14:55:45 INFO     usfeat.pipeline:   dinov3           17 rows     0 failed     0 skipped
+2026-09-11 14:55:45 INFO     usfeat.pipeline:   biomedclip       17 rows     0 failed     0 skipped
+2026-09-11 14:55:45 INFO     usfeat.pipeline:   siglip           17 rows     0 failed     0 skipped
+2026-09-11 14:55:45 INFO     usfeat.pipeline:   imagenet         17 rows     0 failed     0 skipped
+2026-09-11 14:55:45 INFO     usfeat.pipeline: 30 feature tables written to examples/output/features
+2026-09-11 14:55:45 INFO     usfeat.pipeline: no errors logged
+2026-09-11 14:55:45 INFO     usfeat.pipeline: summary: examples/output/logs/summary.json
+2026-09-11 14:55:45 INFO     usfeat.pipeline: ====================================================================

@@ -2,8 +2,7 @@
 #
 #   usfeat extract --config config/sample.yaml
 #
-# Identical to default.yaml apart from the paths, and TexLab off (the sample run
-# is meant to work without the proprietary payload).
+# Identical to default.yaml apart from the paths.
 
 data_root: ./sample_data
 output_dir: ./out/sample
@@ -28,6 +27,3 @@ metadata:
 deep:
   roi_mode: crop
   device: auto
-
-texlab:
-  enabled: false

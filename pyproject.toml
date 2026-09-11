@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "usfeat"
 version = "0.1.0"
-description = "Multi-family feature extraction for 2D ultrasound: TexLab, PyRadiomics, DINOv2/v3, BiomedCLIP, SigLIP, ImageNet"
+description = "Multi-family feature extraction for 2D ultrasound: PyRadiomics, DINOv2/v3, BiomedCLIP, SigLIP, ImageNet"
 readme = "README.md"
 requires-python = ">=3.9"
 license = { text = "Proprietary" }
@@ -23,7 +23,6 @@ dependencies = [
     "timm>=1.0",
     "transformers>=4.40",
     "open_clip_torch>=2.24",
-    "cryptography>=42.0",
     "opencv-python-headless>=4.8",
     "scipy>=1.10",
     "tqdm>=4.65",

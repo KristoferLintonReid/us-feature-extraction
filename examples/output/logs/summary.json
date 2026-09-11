@@ -1,12 +1,11 @@
 {
   "usfeat_version": "0.1.0",
-  "finished_at": "2026-09-08T23:19:20+00:00",
-  "elapsed_seconds": 117.9,
-  "data_root": "/Users/kl2418/ovarian-us-feature-extraction/sample_data",
-  "output_dir": "/Users/kl2418/ovarian-us-feature-extraction/examples/output",
-  "config_fingerprint": "653c06c571010fbf",
+  "finished_at": "2026-09-11T13:55:45+00:00",
+  "elapsed_seconds": 284.5,
+  "data_root": "sample_data",
+  "output_dir": "examples/output",
+  "config_fingerprint": "64cb15c4b3c1ac26",
   "extractors_requested": [
-    "texlab",
     "pyradiomics",
     "dinov2",
     "dinov3",
@@ -22,9 +21,7 @@
     "siglip",
     "imagenet"
   ],
-  "extractors_unavailable": [
-    "texlab"
-  ],
+  "extractors_unavailable": [],
   "images_found": 5,
   "images_with_masks": 3,
   "counts": {

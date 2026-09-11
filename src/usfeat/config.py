@@ -23,7 +23,6 @@ DEFAULT_ROI_DIRS: dict[str, str] = {
 }
 
 ALL_EXTRACTORS = [
-    "texlab",
     "pyradiomics",
     "dinov2",
     "dinov3",
@@ -131,24 +130,6 @@ class PyRadiomicsConfig:
 
 
 @dataclass
-class TexLabConfig:
-    """The encrypted TexLab module.
-
-    `payload` is an AES-256-GCM encrypted archive of the TexLab source. It is
-    decrypted to a private in-memory directory for the duration of the run and
-    shredded afterwards; the plaintext is never written to a persistent layer.
-    """
-
-    enabled: bool = True
-    payload: str = "/opt/usfeat/texlab/texlab.enc"
-    key_file: str | None = None  # None => use the key baked into the image
-    modality: str = "MRI"
-    octave_binary: str = "octave-cli"
-    timeout_seconds: int = 1800
-    min_roi_voxels: int = 32
-
-
-@dataclass
 class Config:
     data_root: Path = Path("/data")
     output_dir: Path = Path("/out")
@@ -159,7 +140,6 @@ class Config:
     metadata: MetadataConfig = field(default_factory=MetadataConfig)
     deep: DeepConfig = field(default_factory=DeepConfig)
     pyradiomics: PyRadiomicsConfig = field(default_factory=PyRadiomicsConfig)
-    texlab: TexLabConfig = field(default_factory=TexLabConfig)
     limit: int | None = None
     resume: bool = True
 
@@ -177,7 +157,6 @@ class Config:
             "metadata": MetadataConfig,
             "deep": DeepConfig,
             "pyradiomics": PyRadiomicsConfig,
-            "texlab": TexLabConfig,
         }
         kwargs: dict[str, Any] = {}
         for key, value in raw.items():

@@ -9,7 +9,6 @@ output_dir: /out
 
 # Feature families to run. Drop any you do not need -- each is independent.
 extractors:
-  - texlab
   - pyradiomics
   - dinov2
   - dinov3
@@ -83,13 +82,4 @@ pyradiomics:
     - Gradient
     - LBP2D
   log_sigma: [1.0, 2.0, 3.0]
-  min_roi_voxels: 32
-
-texlab:
-  enabled: true
-  payload: /opt/usfeat/texlab/texlab.enc
-  key_file: null        # null = use the key baked into the image, or $TEXLAB_KEY
-  modality: MRI
-  octave_binary: octave-cli
-  timeout_seconds: 1800
   min_roi_voxels: 32

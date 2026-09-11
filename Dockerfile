@@ -3,22 +3,16 @@
 # usfeat -- ultrasound feature extraction.
 #
 # Two stages. The builder downloads model weights (and needs network); the
-# runtime carries them, so the container runs fully offline on the collaborator's
-# machine. Octave is installed for the TexLab module.
+# runtime carries them, so the container runs fully offline on the
+# collaborator's machine.
 #
 # Build:
-#   HF_TOKEN=hf_xxx docker build -t usfeat:latest \
-#     --secret id=hf_token,env=HF_TOKEN \
-#     --secret id=texlab_key,src=build/texlab.key .
+#   HF_TOKEN=hf_xxx docker build -t usfeat:latest --secret id=hf_token,env=HF_TOKEN .
 #
-# Both secrets are mounted, not passed as build args, so neither appears in
-# `docker history` or in any image layer. The TexLab key is still written into
-# the final image on purpose -- that is what lets the collaborator run TexLab
-# without holding a key -- but it lands as a 0400 file rather than in metadata.
-#
-# The TexLab payload (build/texlab.enc) must exist before building; produce it
-# with tools/pack_texlab.py. Without it the image still builds and every other
-# feature family works -- TexLab simply reports itself unavailable.
+# The token is mounted as a BuildKit secret rather than passed as a build arg,
+# so it does not appear in `docker history` or in any image layer. It is needed
+# only to download model weights at build time; the runtime stage has no
+# credentials and makes no network calls.
 
 # ------------------------------------------------------------------ builder
 FROM python:3.11-slim-bookworm AS builder
@@ -74,18 +68,8 @@ ENV DEBIAN_FRONTEND=noninteractive \
     USFEAT_WEIGHTS_DIR=/opt/usfeat/weights \
     PYTHONPATH=/opt/usfeat/src
 
-# GNU Octave and the three packages TexLAB_cli loads (statistics, image,
-# parallel), plus libgomp for torch.
-#
-# default-jre-headless is not optional: TexLab's set_TexLAB_path calls
-# javaclasspath, so Octave has to be able to start a JVM. Without it every
-# TexLab extraction fails with "libjvm.so: cannot open shared object file".
+# libgomp for torch, libglib for opencv.
 RUN apt-get update && apt-get install -y --no-install-recommends \
-        octave \
-        octave-statistics \
-        octave-image \
-        octave-parallel \
-        default-jre-headless \
         libgomp1 \
         libglib2.0-0 \
         ca-certificates \
@@ -99,28 +83,10 @@ COPY src/     /opt/usfeat/src/
 COPY config/  /opt/usfeat/config/
 COPY tools/   /opt/usfeat/tools/
 
-# The encrypted TexLab payload, which is optional. COPY needs at least one
-# source that definitely exists, so requirements.txt rides along as a dummy and
-# the bracket glob quietly matches nothing when build/texlab.enc is absent.
-COPY requirements.txt build/texlab.en[c] /opt/usfeat/texlab/
-RUN rm -f /opt/usfeat/texlab/requirements.txt
-
-# The payload key, baked in so the collaborator does not need one. See
-# docs/SECURITY.md for exactly what this protects against and what it does not.
-RUN --mount=type=secret,id=texlab_key \
-    mkdir -p /opt/usfeat/texlab && \
-    if [ -s /run/secrets/texlab_key ]; then \
-        tr -d '\n' < /run/secrets/texlab_key > /opt/usfeat/texlab/texlab.key && \
-        chmod 0400 /opt/usfeat/texlab/texlab.key ; \
-        echo "TexLab key installed" ; \
-    else \
-        echo "no TexLab key supplied; the texlab extractor will report itself unavailable" ; \
-    fi
-
 # Run as a non-root user; /data is mounted read-only, /out is written.
 RUN useradd --create-home --uid 1000 usfeat && \
     mkdir -p /data /out && \
-    chown -R usfeat:usfeat /out /opt/usfeat/texlab
+    chown -R usfeat:usfeat /out
 USER usfeat
 
 WORKDIR /work

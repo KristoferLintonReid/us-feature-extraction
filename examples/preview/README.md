@@ -8,7 +8,7 @@ usfeat extract --data sample_data --out examples/output --limit 5
 
 - **30 feature tables**, 102 rows total
 - **0 errors**
-- runtime 117.9s on CPU
+- runtime 284.5s on CPU
 
 The `.parquet` files themselves are not committed (they are derived data, ~25 MB). Regenerate them with the command above. What is committed:
 
