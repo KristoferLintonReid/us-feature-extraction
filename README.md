@@ -20,34 +20,36 @@ itself and the rest of the run proceeds.
 ## Quick start (Docker)
 
 ```bash
-# 1. Put your data where the container can see it (see "Input layout" below).
-# 2. Run.
-docker run --rm \
-  -v /path/to/your/data:/data:ro \
-  -v /path/to/output:/out \
-  usfeat:latest extract --data /data --out /out
+./run.sh /path/to/your/data /path/to/output
 ```
 
 That is the whole thing. Results land in `/path/to/output`.
 
-There is a wrapper if you prefer not to type the mounts:
+Use `run.sh` rather than a bare `docker run`: it supplies `--network none` (see the next
+section), sets the shared-memory size torch needs, mounts your data read-only, and enables the
+GPU if one is present.
+
+**Before running the whole dataset**, smoke-test on ten images. It takes a couple of minutes and
+catches layout problems immediately:
 
 ```bash
-./run.sh /path/to/your/data /path/to/output
+./run.sh /path/to/your/data /path/to/output --limit 10
 ```
 
-**Before running the whole dataset**, do a smoke test on ten images — it takes a couple of
-minutes and catches layout problems immediately:
+To see what *would* be processed, without processing it:
 
 ```bash
-docker run --rm -v /path/to/your/data:/data:ro -v /path/to/output:/out \
-  usfeat:latest extract --data /data --out /out --limit 10
+docker run --rm --network none -v /path/to/your/data:/data:ro \
+  usfeat:latest inspect --data /data
 ```
 
-And to see what *would* be processed without processing it:
+If you would rather drive Docker yourself, the equivalent of `run.sh` is:
 
 ```bash
-docker run --rm -v /path/to/your/data:/data:ro usfeat:latest inspect --data /data
+docker run --rm --network none --shm-size=2g \
+  -v /path/to/your/data:/data:ro \
+  -v /path/to/output:/out \
+  usfeat:latest extract --data /data --out /out
 ```
 
 ---
@@ -167,8 +169,11 @@ extraction — so one bad file costs one row, never the run.
 usfeat extract --data sample_data --out examples/output --limit 5
 ```
 
-**30 tables, 17 rows per family, 0 errors, ~2 minutes on CPU.** Five images: two without any
-ROI, three segmented with all four.
+**30 tables, 17 rows per family, 0 errors.** Five images: two without any ROI, three segmented
+with all four.
+
+About five minutes on CPU, most of it spent loading the six models — that cost is paid once per
+run regardless of dataset size, which is why sixteen images take barely longer than five.
 
 | | |
 |---|---|
@@ -315,10 +320,14 @@ docker run --rm -v /path/to/output:/out usfeat:latest verify --out /out
 ```
 feature tables in /out/features:
 
-  dinov2__lesion.parquet          6 rows    1550 cols  (9 metadata)  model=facebook/dinov2-base
-  pyradiomics__lesion.parquet     6 rows    1170 cols  (9 metadata)  model=-
+  biomedclip__lesion.parquet       3 rows   535 cols  (9 metadata)  hf-hub:microsoft/BiomedCLIP-…
+  dinov2__lesion.parquet           3 rows  1559 cols  (9 metadata)  facebook/dinov2-base
+  pyradiomics__lesion.parquet      3 rows  1170 cols  (9 metadata)  v3.1.0
   ...
-run summary: 16 images, 0 errors, finished 2026-09-08T23:14:12+00:00
+
+  102 rows across 30 tables
+
+run summary: 5 images, 0 errors, finished 2026-09-11T13:55:45+00:00
 ```
 
 Runs are **resumable**. If a long run is interrupted, re-run the same command: completed rows
@@ -358,11 +367,21 @@ PyRadiomics is unaffected by this — it always takes image + binary mask direct
 
 ```bash
 pip install -r requirements.txt
+
+# PyRadiomics needs its own step. Its 3.1.0 sdist on PyPI declares its version as
+# 3.0.1a1, so pip rejects it as inconsistent metadata; the git build additionally
+# needs versioneer present up front, which build isolation will not supply.
+pip install "numpy<2" setuptools wheel versioneer
+pip install --no-build-isolation \
+  "pyradiomics @ git+https://github.com/AIM-Harvard/pyradiomics@v3.1.0"
+
 pip install -e .
 usfeat extract --data /path/to/data --out /path/to/out
 ```
 
-Everything runs on the Python dependencies alone.
+Model weights are downloaded on first use rather than baked in, so this route needs network
+access and a Hugging Face account for the licence-gated DINOv3 weights. The Docker image exists
+precisely to avoid both.
 
 ---
 
@@ -379,9 +398,13 @@ credentials and makes no network calls. See [docs/SECURITY.md](docs/SECURITY.md)
 The image is CPU-only by default. For a GPU host:
 
 ```bash
-docker build -t usfeat:gpu \
-  --build-arg TORCH_INDEX=https://download.pytorch.org/whl/cu121 ... .
+HF_TOKEN=hf_xxx docker build -t usfeat:gpu \
+  --build-arg TORCH_INDEX=https://download.pytorch.org/whl/cu121 \
+  --secret id=hf_token,env=HF_TOKEN .
 ```
+
+The build ends by loading every extractor with the network disabled and fails if any cannot
+start, so a half-downloaded weight cache cannot reach you looking like a working image.
 
 ---
 
@@ -405,7 +428,22 @@ exercised end to end. The lesion masks are real.
 
 ---
 
+## Documentation
+
+| | |
+|---|---|
+| [docs/METADATA.md](docs/METADATA.md) | The clinical fields worth supplying, and why each matters |
+| [docs/SECURITY.md](docs/SECURITY.md) | How your data stays on your machine; credential handling |
+| [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) | How the pipeline is put together, and the design choices behind it |
+| [examples/preview/README.md](examples/preview/README.md) | Every output table's shape, with real excerpts |
+| [sample_data/README.md](sample_data/README.md) | What is in the sample pack, and its limitations |
+
+---
+
 ## Licence
 
-The pipeline code is proprietary to Kristofer Linton-Reid. MMOTU sample data is Apache-2.0. Model weights carry their own upstream licences
-(DINOv2/DINOv3: Meta; BiomedCLIP: MIT; SigLIP: Apache-2.0).
+The pipeline code is proprietary to Kristofer Linton-Reid. MMOTU sample data is Apache-2.0.
+Model weights carry their own upstream licences (DINOv2/DINOv3: Meta; BiomedCLIP: MIT;
+SigLIP: Apache-2.0).
+
+This is a research tool, not a medical device. It must not be used for clinical diagnosis.
