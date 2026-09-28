@@ -249,6 +249,9 @@ resolve to the same row, and Excel's habit of turning label `12` into `12.0` is 
 If a sheet is missing or a key does not match, the features are still produced — the
 `meta_` columns are simply null, and the run summary tells you how many rows that affected.
 
+**[docs/METADATA.md](docs/METADATA.md) sets out the clinical fields worth supplying** and why
+each one matters — diagnosis granularity, patient-level identifiers, acquisition details.
+
 ---
 
 ## Output
