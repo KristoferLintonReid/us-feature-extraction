@@ -41,20 +41,22 @@ RUN pip install "numpy<2" setuptools wheel versioneer && \
       "pyradiomics @ git+https://github.com/AIM-Harvard/pyradiomics@v3.1.0" && \
     python -c "import radiomics; print('pyradiomics', radiomics.__version__)"
 
-COPY src/ /build/src/
+# Deliberately NOT copying src/ here: fetch_weights.py is standalone, so editing
+# pipeline code does not invalidate the multi-GB weight-download layer below.
 COPY tools/ /build/tools/
 COPY config/ /build/config/
 
-# Bake the weights. Not --strict: a gated repo that has not been granted must not
-# break the build, it must produce an image where that one extractor is absent
-# and says so.
+# Bake the weights. --strict on purpose: a failed download must fail the build.
+# Without it a transient network blip produces an image that runs, exits zero,
+# and silently yields a fraction of the expected feature tables.
 ENV HF_HOME=/opt/usfeat/weights \
     USFEAT_WEIGHTS_DIR=/opt/usfeat/weights
 RUN --mount=type=secret,id=hf_token \
     HF_TOKEN="$(cat /run/secrets/hf_token 2>/dev/null || true)" \
     python /build/tools/fetch_weights.py \
         --dest /opt/usfeat/weights \
-        --config /build/config/default.yaml
+        --config /build/config/default.yaml \
+        --strict
 
 # ------------------------------------------------------------------ runtime
 FROM python:3.11-slim-bookworm AS runtime
@@ -82,6 +84,11 @@ COPY --from=builder /opt/usfeat/weights /opt/usfeat/weights
 COPY src/     /opt/usfeat/src/
 COPY config/  /opt/usfeat/config/
 COPY tools/   /opt/usfeat/tools/
+
+# Prove the baked cache is actually sufficient: every configured extractor must
+# initialise with no network. This is the check that would have caught the image
+# where four of six models were missing but the build still exited zero.
+RUN python /opt/usfeat/tools/verify_image.py --config /opt/usfeat/config/default.yaml
 
 # Run as a non-root user; /data is mounted read-only, /out is written.
 RUN useradd --create-home --uid 1000 usfeat && \

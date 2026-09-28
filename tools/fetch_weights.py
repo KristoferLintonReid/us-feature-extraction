@@ -17,7 +17,6 @@ import os
 import sys
 from pathlib import Path
 
-sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "src"))
 
 
 def fetch(dest: Path, models: dict[str, str], strict: bool) -> int:
@@ -74,9 +73,33 @@ def fetch(dest: Path, models: dict[str, str], strict: bool) -> int:
     return 0
 
 
-def main() -> int:
-    from usfeat.config import Config
+# Defaults mirror usfeat.config.DeepConfig. They are duplicated rather than
+# imported so that this script does not pull in the package: keeping src/ out of
+# the builder stage means editing pipeline code does not invalidate the Docker
+# layer that downloads several GB of model weights.
+DEFAULTS = {
+    "dinov2_model": "facebook/dinov2-base",
+    "dinov3_model": "facebook/dinov3-vitb16-pretrain-lvd1689m",
+    "biomedclip_model": "hf-hub:microsoft/BiomedCLIP-PubMedBERT_256-vit_base_patch16_224",
+    "siglip_model": "google/siglip-base-patch16-224",
+    "imagenet_backbones": [
+        "resnet50.a1_in1k",
+        "vit_base_patch16_224.augreg_in21k_ft_in1k",
+    ],
+}
 
+
+def load_deep_settings(config_path: Path | None) -> dict:
+    settings = dict(DEFAULTS)
+    if config_path and config_path.exists():
+        import yaml
+
+        raw = yaml.safe_load(config_path.read_text()) or {}
+        settings.update({k: v for k, v in (raw.get("deep") or {}).items() if k in DEFAULTS})
+    return settings
+
+
+def main() -> int:
     ap = argparse.ArgumentParser(description=__doc__,
                                  formatter_class=argparse.RawDescriptionHelpFormatter)
     ap.add_argument("--dest", type=Path, default=Path("/opt/usfeat/weights"))
@@ -85,14 +108,14 @@ def main() -> int:
                     help="exit non-zero if any model fails to download")
     args = ap.parse_args()
 
-    cfg = Config.load(args.config)
+    deep = load_deep_settings(args.config)
     models = {
-        "dinov2": cfg.deep.dinov2_model,
-        "dinov3": cfg.deep.dinov3_model,
-        "biomedclip": cfg.deep.biomedclip_model,
-        "siglip": cfg.deep.siglip_model,
+        "dinov2": deep["dinov2_model"],
+        "dinov3": deep["dinov3_model"],
+        "biomedclip": deep["biomedclip_model"],
+        "siglip": deep["siglip_model"],
     }
-    for backbone in cfg.deep.imagenet_backbones:
+    for backbone in deep["imagenet_backbones"]:
         models[f"imagenet:{backbone}"] = backbone
 
     return fetch(args.dest, models, args.strict)
